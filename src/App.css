@@ -56,13 +56,37 @@ button.clear {
     color: #fff;
     padding: 8px;
 }
-.scales .icon{
+.math-icons{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid grey;
+    padding-bottom: 10px;
+}
+.jBSwj{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.icon{
     color: rgb(144, 144, 227);
+    font-size: 20px;
+}
+.icon-container{
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 2px;
+    padding: 3px;
+    background-color: rgb(144, 144, 227);
+    color: black;
+    font-size: 12px;
+    border-radius: 5px;
 }
 .button-wrapper{
     display: flex;
     flex-direction: column;
     gap: 5px;
+    padding-top: 8px;
 }
 .rows{
     display: flex;
