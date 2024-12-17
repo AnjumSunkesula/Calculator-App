@@ -21,11 +21,17 @@ button.clear {
     padding: 8px;
 }
 .display {
-    font-size: 1rem;
+    font-size: 16px;
     padding: 2rem;
-    /* border: 1px solid #ccc; */
     text-align: right;
     margin-bottom: 5px;
+    white-space: pre-wrap;
+    overflow-y: auto;
+    max-height: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+    &::-webkit-scrollbar{
+        display: none;
+    }
 }
 .math-icons{
     display: flex;
