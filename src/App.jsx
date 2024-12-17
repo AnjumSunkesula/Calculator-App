@@ -22,8 +22,7 @@ function App() {
 			} catch {
 				setDisplay("Error"); // Show error if there is a syntax issue in the expression
 			}
-		} else {                              
-		// If it's a string (number or operator), append it to the display
+		} else {    // if it's a string (num or operator), append it to the display                           
 			setDisplay(display + value);   
 		}
 	};
@@ -88,10 +87,10 @@ function App() {
 							<button className='green'>( )</button>
 						</div>
 						<div>
-							<button className='green' >%</button>
+							<button className='green' onClick={() => handleClick("%")}>%</button>
 						</div>
 						<div>
-							<button className='green' ><FontAwesomeIcon icon={faDivide} /></button>
+							<button className='green' onClick={() => handleClick("/")}><FontAwesomeIcon icon={faDivide} /></button>
 						</div>
 					</div>
 					<div className='rows'>
