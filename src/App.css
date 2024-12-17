@@ -1,52 +1,16 @@
-.calculator {
-    max-width: 300px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    background-color: #f9f9f9;
-}
 
-.display {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background: #fff;
-    text-align: right;
-}
 
-/* .buttons {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-}
-
-button {
-    font-size: 1.2rem;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button:hover {
+/* button:hover {
     background-color: #0056b3;
 }
 
 button.clear {
     background-color: #ff4d4d;
-} */
-
-/* button.clear:hover {
-    background-color: #cc0000;
-} */
+    }  */
+    
+    /* button.clear:hover {
+        background-color: #cc0000;
+        } */
 .container{
     position: absolute;
     top: 50%;
@@ -55,6 +19,13 @@ button.clear {
     background-color: black;
     color: #fff;
     padding: 8px;
+}
+.display {
+    font-size: 1rem;
+    padding: 2rem;
+    /* border: 1px solid #ccc; */
+    text-align: right;
+    margin-bottom: 5px;
 }
 .math-icons{
     display: flex;
