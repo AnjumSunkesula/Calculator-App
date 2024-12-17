@@ -18,7 +18,15 @@ function App() {
 			setDisplay((prev) => prev + operator); // Append the operator symbol as string
 		} else if (value === "=") {          // If the value is "=" (equal sign), calculate the result
 			try {
-				setDisplay(eval(display)); // Calculate the result (use eval carefully)
+				const result = eval(display);
+                setDisplay(result.toString());
+
+                // Store the calculation and result in history
+                setHistory((prevHistory) => [
+                    ...prevHistory,
+                    `${display} 
+					${result}`
+                ]);
 			} catch {
 				setDisplay("Error"); // Show error if there is a syntax issue in the expression
 			}
@@ -53,6 +61,8 @@ function App() {
 	const [history, setHistory] = useState('');
 
 	const handleStoreHistory = () => {
+		const historyString = history.join("\n");
+		setDisplay(historyString);
 
 	}
     
@@ -65,7 +75,7 @@ function App() {
 				</div>
 				<div className='math-icons'>
 					<div className='jBSwj'>
-						<FontAwesomeIcon icon={faClock} className='icon'/>
+						<FontAwesomeIcon icon={faClock} onClick={handleStoreHistory} className='icon'/>
 						<FontAwesomeIcon icon={faRulerHorizontal} className='icon'/>
 						<div className='icon-container'>
 							<span>&#8730;</span> 
