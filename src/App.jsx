@@ -6,41 +6,63 @@ import {faDivide, faMinus, faPlus, faXmark, faEquals, faClock, faRulerHorizontal
 function App() {
 
 	const [display, setDisplay] = useState(""); // State to manage the input and result
+	
+	// const handleInput = (value) => {
+	// 	setDisplay(display + value)
 
-    const handleClick = (value) => {
-    if (value === "=") {
-      try {
-        setDisplay(eval(display)); // Calculate the result (use eval carefully)
-      } catch {
-        setDisplay("Error");
-      }
-    } else if (value === "C") {
-      setDisplay(""); // Clear the display
-    } else {
-      setDisplay(display + value); // Append input
-    }
-  };
+	// }
+
+	const handleClick = (value) => {
+		if (React.isValidElement(value)) {
+			const operator = getIconSymbol(value); // Extract the operator from the icon
+			setDisplay((prev) => prev + operator); // Append the operator symbol as string
+		} else if (value === "=") {          // If the value is "=" (equal sign), calculate the result
+			try {
+				setDisplay(eval(display)); // Calculate the result (use eval carefully)
+			} catch {
+				setDisplay("Error"); // Show error if there is a syntax issue in the expression
+			}
+		} else {                              
+		// If it's a string (number or operator), append it to the display
+			setDisplay(display + value);   
+		}
+	};
+
+	const getIconSymbol = (icon) => {
+		switch (icon.props.icon) {
+			case faPlus:
+				return "+";
+			case faMinus:
+				return "-";
+			case faXmark:
+				return "*";
+			case faDivide:
+				return "/";
+			case faEquals:
+				return "=";
+			default:
+				return ""; // Return empty string if no match
+		}
+	};
+
+
+	const handleClear = () => {
+		setDisplay("");
+	}
+	
+	// storing previous calculations
+	const [history, setHistory] = useState('');
+
+	const handleStoreHistory = () => {
+
+	}
     
 	
 	return(
 		<>
-		    {/* <div className='container'>
-				<div className="display">{display || "0"}</div>
-				<div className="buttons">
-					{["7", "8", "9", "/", "4", "5", "6", "*", "1", "2", "3", "-", "0", ".", "=", "+"].map((item) => (
-					<button key={item} onClick={() => handleClick(item)}>
-						{item}
-					</button>
-					))}
-					<button className="clear" onClick={() => handleClick("C")}>
-					C
-					</button>
-				</div>
-				<div>calculator</div>
-			</div> */}
 			<div className='container'>
-				<div>
-					display
+				<div className='display'>
+					{display || "0"}
 				</div>
 				<div className='math-icons'>
 					<div className='jBSwj'>
@@ -60,76 +82,46 @@ function App() {
 				<div className='button-wrapper'>
 					<div className='rows'>
 						<div>
-							<button className='clear'>C</button>
+							<button className='clear' onClick={handleClear}>C</button>
 						</div>
 						<div>
 							<button className='green'>( )</button>
 						</div>
 						<div>
-							<button className='green'>%</button>
+							<button className='green' >%</button>
 						</div>
 						<div>
-							<button className='green'><FontAwesomeIcon icon={faDivide} /></button>
+							<button className='green' ><FontAwesomeIcon icon={faDivide} /></button>
 						</div>
 					</div>
 					<div className='rows'>
-						<div>
-							<button>7</button>
-						</div>
-						<div>
-							<button>8</button>
-						</div>
-						<div>
-							<button>9</button>
-						</div>
-						<div>
-							<button className='green'><FontAwesomeIcon icon={faXmark} /></button>
-						</div>
+						{["7", "8", "9", <FontAwesomeIcon icon={faXmark}/>].map((item, index) => (
+							<button key={index} onClick={() => handleClick(item)}>
+								{item}
+							</button>
+						))}
 					</div>
 					<div className='rows'>
-						<div>
-							<button>4</button>
-						</div>
-						<div>
-							<button>5</button>
-						</div>
-						<div>
-							<button>6</button>
-						</div>
-						<div>
-							<button className='green'><FontAwesomeIcon icon={faMinus} /></button>
-						</div>
+						{["4", "5", "6", <FontAwesomeIcon icon={faMinus}/>].map((item, index) => (
+							<button key={index} onClick={() => handleClick(item)}>
+								{item}
+							</button>
+						))}
 					</div>
 					<div className='rows'>
-						<div>
-							<button>1</button>
-						</div>
-						<div>
-							<button>2</button>
-						</div>
-						<div>
-							<button>3</button>
-						</div>
-						<div>
-							<button className='green'><FontAwesomeIcon icon={faPlus} /></button>
-						</div>
+						{["1", "2", "3", <FontAwesomeIcon icon={faPlus}/>].map((item, index) => (
+							<button key={index} onClick={() => handleClick(item)}>
+								{item}
+							</button>
+						))}
 					</div>
 					<div className='rows'>
-						<div>
-							<button>+/-</button>
-						</div>
-						<div>
-							<button>0</button>
-						</div>
-						<div>
-							<button>.</button>
-						</div>
-						<div>
-							<button className='equal-button'><FontAwesomeIcon icon={faEquals} /></button>
-						</div>
+						{["+/-", "0", ".", "="].map((item, index) => (
+							<button key={index} onClick={() => handleClick(item)}>
+								{item}
+							</button>
+						))}
 					</div>
- 
-
 				</div>
 
 			</div>
