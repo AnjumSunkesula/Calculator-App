@@ -1,13 +1,13 @@
 import './App.css'
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faDivide, faMinus, faPlus, faXmark, faEquals, faClock, faRulerHorizontal, faSquareRootVariable} from '@fortawesome/free-solid-svg-icons'
+import {faDivide, faMinus, faPlus, faXmark, faEquals, faClock, faRulerHorizontal, faDeleteLeft} from '@fortawesome/free-solid-svg-icons'
 
 function App() {
 
 	const [display, setDisplay] = useState(""); // State to manage the input and result
 
-  const handleClick = (value) => {
+    const handleClick = (value) => {
     if (value === "=") {
       try {
         setDisplay(eval(display)); // Calculate the result (use eval carefully)
@@ -20,6 +20,7 @@ function App() {
       setDisplay(display + value); // Append input
     }
   };
+    
 	
 	return(
 		<>
@@ -41,10 +42,20 @@ function App() {
 				<div>
 					display
 				</div>
-				<div className='scales'>
-					<FontAwesomeIcon icon={faClock} className='icon'/>
-					<FontAwesomeIcon icon={faRulerHorizontal} />
-					<FontAwesomeIcon icon={faSquareRootVariable}/>
+				<div className='math-icons'>
+					<div className='jBSwj'>
+						<FontAwesomeIcon icon={faClock} className='icon'/>
+						<FontAwesomeIcon icon={faRulerHorizontal} className='icon'/>
+						<div className='icon-container'>
+							<span>&#8730;</span> 
+							<span>&#960;</span> 
+							<span>&#949;</span>
+							<span>=</span> 
+						</div>
+					</div>
+					<div className='JHWha'>
+						<FontAwesomeIcon icon={faDeleteLeft}  className='icon'/>
+					</div>
 				</div>
 				<div className='button-wrapper'>
 					<div className='rows'>
