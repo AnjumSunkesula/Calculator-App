@@ -11,16 +11,13 @@ function App() {
 		if (React.isValidElement(value)) {
 			const operator = getIconSymbol(value); // getIconSymbol function converts icons to their corresponding operators
 			setDisplay((prev) => prev + operator); // Append the operator symbol as string
-		} else if (value === "=") {          // If the value is "=" (equal sign), calculate the result
+		} else if (value === "=") {                // If the value is "=" (equal sign), calculate the result
 			try {
 				const result = eval(display);
                 setDisplay(result.toString());
-
-                // Store the calculation and result in history
-                setHistory((prevHistory) => [
+                setHistory((prevHistory) => [   //store the calculation and result in history
                     ...prevHistory,
-                    `${display} 
-					${result}`
+                    `${display} = ${result}`
                 ]);
 			} catch {
 				setDisplay("Error"); // Show error if there is a syntax issue in the expression
@@ -47,13 +44,13 @@ function App() {
 		}
 	};
 
-
+ 
+	// CLEAR THE DISPLAY
 	const handleClear = () => {
 		setDisplay("");
 	}
 	
 	// DELETE CHARACTER BY ONE
-
 	const handleDelete = () => {
 		setDisplay((prev) => prev.slice(0, -1));  //removes the last character.-1 cuz it removes the single digit also 
 	}
@@ -72,7 +69,7 @@ function App() {
 		<>
 			<div className='container'>
 				<div className='display'>
-					{display || "0"}
+					{display || <span className='cursor'></span>}
 				</div>
 				<div className='math-icons'>
 					<div className='jBSwj'>
