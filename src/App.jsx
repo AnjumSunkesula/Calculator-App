@@ -7,14 +7,9 @@ function App() {
 
 	const [display, setDisplay] = useState(""); // State to manage the input and result
 	
-	// const handleInput = (value) => {
-	// 	setDisplay(display + value)
-
-	// }
-
 	const handleClick = (value) => {
 		if (React.isValidElement(value)) {
-			const operator = getIconSymbol(value); // Extract the operator from the icon
+			const operator = getIconSymbol(value); // getIconSymbol function converts icons to their corresponding operators
 			setDisplay((prev) => prev + operator); // Append the operator symbol as string
 		} else if (value === "=") {          // If the value is "=" (equal sign), calculate the result
 			try {
@@ -31,7 +26,7 @@ function App() {
 				setDisplay("Error"); // Show error if there is a syntax issue in the expression
 			}
 		} else {    // if it's a string (num or operator), append it to the display                           
-			setDisplay(display + value);   
+			setDisplay((prev) => prev + value);   
 		}
 	};
 
@@ -57,14 +52,16 @@ function App() {
 		setDisplay("");
 	}
 	
-	// storing previous calculations
-	const [history, setHistory] = useState('');
+	
+
+	// STORING PREVIOUS CALCULATIONS
+	const [history, setHistory] = useState([]);
 
 	const handleStoreHistory = () => {
 		const historyString = history.join("\n");
 		setDisplay(historyString);
-
 	}
+
     
 	
 	return(
@@ -85,7 +82,7 @@ function App() {
 						</div>
 					</div>
 					<div className='JHWha'>
-						<FontAwesomeIcon icon={faDeleteLeft}  className='icon'/>
+						<FontAwesomeIcon icon={faDeleteLeft} onClick={handleDelete}  className='icon'/>
 					</div>
 				</div>
 				<div className='button-wrapper'>
@@ -94,39 +91,45 @@ function App() {
 							<button className='clear' onClick={handleClear}>C</button>
 						</div>
 						<div>
-							<button className='green'>( )</button>
+							<button className='operator'>( )</button>
 						</div>
 						<div>
-							<button className='green' onClick={() => handleClick("%")}>%</button>
+							<button className='operator' onClick={() => handleClick("%")}>%</button>
 						</div>
 						<div>
-							<button className='green' onClick={() => handleClick("/")}><FontAwesomeIcon icon={faDivide} /></button>
+							<button className='operator' onClick={() => handleClick("/")}><FontAwesomeIcon icon={faDivide} /></button>
 						</div>
 					</div>
 					<div className='rows'>
 						{["7", "8", "9", <FontAwesomeIcon icon={faXmark}/>].map((item, index) => (
-							<button key={index} onClick={() => handleClick(item)}>
+							<button 
+							    key={index} onClick={() => handleClick(item)} 
+							    className={React.isValidElement(item) && item.props.icon.iconName === "xmark" ? "operator" : ''} >
 								{item}
 							</button>
 						))}
 					</div>
 					<div className='rows'>
 						{["4", "5", "6", <FontAwesomeIcon icon={faMinus}/>].map((item, index) => (
-							<button key={index} onClick={() => handleClick(item)}>
+							<button 
+							    key={index} onClick={() => handleClick(item)} 
+								className={React.isValidElement(item) && item.props.icon.iconName === "minus" ? "operator" : ''}>
 								{item}
 							</button>
 						))}
 					</div>
 					<div className='rows'>
 						{["1", "2", "3", <FontAwesomeIcon icon={faPlus}/>].map((item, index) => (
-							<button key={index} onClick={() => handleClick(item)}>
+							<button 
+							    key={index} onClick={() => handleClick(item)} 
+								className={React.isValidElement(item) && item.props.icon.iconName === "plus" ? "operator" : ""}>
 								{item}
 							</button>
 						))}
 					</div>
 					<div className='rows'>
 						{["+/-", "0", ".", "="].map((item, index) => (
-							<button key={index} onClick={() => handleClick(item)}>
+							<button key={index} onClick={() => handleClick(item)} className = {item === "=" ? "equals" : ''}>
 								{item}
 							</button>
 						))}
