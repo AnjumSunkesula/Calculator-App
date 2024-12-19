@@ -82,10 +82,10 @@ button.clear {
 .rows .clear{
     color: rgb(215, 13, 13);
 }
-.rows .green{
+.rows .operator{
     color: rgb(67, 211, 67);
 }
-.rows .equal-button{
+.rows .equals{
     background-color: green;
     color: #fff;
 }
