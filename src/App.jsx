@@ -6,24 +6,45 @@ import {faDivide, faMinus, faPlus, faXmark, faEquals, faClock, faRulerHorizontal
 function App() {
 
 	const [display, setDisplay] = useState(""); // State to manage the input and result
+	const [history, setHistory] = useState([]);
 	
 	const handleClick = (value) => {
 		if (React.isValidElement(value)) {
-			const operator = getIconSymbol(value); // getIconSymbol function converts icons to their corresponding operators
-			setDisplay((prev) => prev + operator); // Append the operator symbol as string
-		} else if (value === "=") {                // If the value is "=" (equal sign), calculate the result
+			const operator = getIconSymbol(value);                      // getIconSymbol function converts icons to their corresponding operators
+			setDisplay((prev) => prev + operator);                      // Append the operator symbol as string
+		} else if (value === "=") {                                     // If the value is "=" (equal sign), calculate the result
 			try {
 				const result = eval(display);
                 setDisplay(result.toString());
-                setHistory((prevHistory) => [   //store the calculation and result in history
+                setHistory((prevHistory) => [                           //store the calculation and result in history
                     ...prevHistory,
                     `${display} = ${result}`
                 ]);
 			} catch {
-				setDisplay("Error"); // Show error if there is a syntax issue in the expression
+				setDisplay("Error");                                     // Show error if there is a syntax issue in the expression
 			}
-		} else {    // if it's a string (num or operator), append it to the display                           
-			setDisplay((prev) => prev + value);   
+		} else if (value === "()") {                                     // Handle parentheses logic
+			const lastChar = display[display.length - 1];
+			if (!display || "+-*/(".includes(lastChar)) {                // Append "(" if it's the beginning or after an operator
+				setDisplay((prev) => prev + "(");
+			} else {                                                     // Append ")" if there’s a matching open parenthesis
+				const openCount = (display.match(/\(/g) || []).length;
+				const closeCount = (display.match(/\)/g) || []).length;
+				if (openCount > closeCount) {
+					setDisplay((prev) => prev + ")");
+				} else {
+					setDisplay((prev) => prev + "*(");
+				}
+			}
+        } else if (!isNaN(value) || value === '.') {
+			const lastChar = display[display.length - 1];
+			if (lastChar === ")") {
+				setDisplay((prev) => prev + "*" + value);
+			} else {
+				setDisplay((prev) => prev + value);
+			}
+		} else {
+			setDisplay((prev) => prev + value);
 		}
 	};
 
@@ -56,12 +77,11 @@ function App() {
 	}
 
 	// STORING PREVIOUS CALCULATIONS
-	const [history, setHistory] = useState([]);
-
 	const handleStoreHistory = () => {
 		const historyString = history.join("\n");
 		setDisplay(historyString);
 	}
+	// CLEARING HISTORY
 	const handleClearHistory = () => {
 		setHistory([]);
 		setDisplay("");
@@ -99,7 +119,7 @@ function App() {
 							<button className='clear' onClick={handleClear}>C</button>
 						</div>
 						<div>
-							<button className='operator'>( )</button>
+							<button className='operator' onClick={() => handleClick("()")}>( )</button>
 						</div>
 						<div>
 							<button className='operator' onClick={() => handleClick("%")}>%</button>
