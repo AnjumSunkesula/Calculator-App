@@ -52,7 +52,11 @@ function App() {
 		setDisplay("");
 	}
 	
-	
+	// DELETE CHARACTER BY ONE
+
+	const handleDelete = () => {
+		setDisplay((prev) => prev.slice(0, -1));  //removes the last character.-1 cuz it removes the single digit also 
+	}
 
 	// STORING PREVIOUS CALCULATIONS
 	const [history, setHistory] = useState([]);
