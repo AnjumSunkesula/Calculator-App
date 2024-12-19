@@ -14,11 +14,20 @@ function App() {
 			setDisplay((prev) => prev + operator);                      // Append the operator symbol as string
 		} else if (value === "=") {                                     // If the value is "=" (equal sign), calculate the result
 			try {
-				const result = eval(display);
+
+				const openCount = (display.match(/\(/g) || []).length;   //automatically balance parantheses before evaluation
+				const closeCount = (display.match(/\)/g) || []).length;
+
+				let balancedDisplay = display;
+				if (openCount > closeCount) {
+					balancedDisplay += ")".repeat(openCount - closeCount); // Add missing closing parentheses
+				}
+
+				const result = eval(balancedDisplay);                    //evaluate the balanced expression
                 setDisplay(result.toString());
                 setHistory((prevHistory) => [                           //store the calculation and result in history
                     ...prevHistory,
-                    `${display} = ${result}`
+                    `${balancedDisplay} = ${result}`
                 ]);
 			} catch {
 				setDisplay("Error");                                     // Show error if there is a syntax issue in the expression
