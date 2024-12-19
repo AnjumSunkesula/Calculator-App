@@ -8,14 +8,13 @@
     padding: 8px;
 }
 .display {
-    font-size: 18px;
+    font-size: 20px;
     padding: 10px;
     text-align: right;
     margin-bottom: 5px;
     white-space: pre-wrap;
     overflow-y: auto;
-    height: auto;
-    max-height: 100px;
+    height: 100px;
     max-width: 240px;
     font-family: system-ui;
     line-height: 1.5;
@@ -28,14 +27,31 @@
     animation: blink 1s step-end infinite;
     display: inline-block;
     vertical-align: middle;
-    height: 1em;
+    height: 25px;
     width: 1px;
-    background-color: #fff;
+    background-color: rgb(144, 144, 227);
 }
 @keyframes blink {
     50% {
         opacity: 0;
     }
+}
+.clear-history{
+    background-color: rgb(46, 46, 46);
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    font-family: "Poppins";
+    font-weight: 400;
+    display: flex;
+    justify-self: flex-end;
+    padding: 5px 25px;
+}
+.clear-history:hover{
+    cursor: pointer;
+    background: #fff;
+    color: black;
+    font-weight: 500;
 }
 .math-icons{
     display: flex;
