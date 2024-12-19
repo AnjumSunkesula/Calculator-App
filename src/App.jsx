@@ -62,6 +62,10 @@ function App() {
 		const historyString = history.join("\n");
 		setDisplay(historyString);
 	}
+	const handleClearHistory = () => {
+		setHistory([]);
+		setDisplay("");
+	}
 
     
 	
@@ -71,6 +75,9 @@ function App() {
 				<div className='display'>
 					{display || <span className='cursor'></span>}
 				</div>
+				{history.length > 0 && display === history.join("\n") && (
+					<button onClick={handleClearHistory} className='clear-history'>Clear history</button>
+				)}
 				<div className='math-icons'>
 					<div className='jBSwj'>
 						<FontAwesomeIcon icon={faClock} onClick={handleStoreHistory} className='icon'/>
