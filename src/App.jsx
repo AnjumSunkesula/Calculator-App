@@ -14,7 +14,6 @@ function App() {
 			setDisplay((prev) => prev + operator);                      // Append the operator symbol as string
 		} else if (value === "=") {                                     // If the value is "=" (equal sign), calculate the result
 			try {
-
 				const openCount = (display.match(/\(/g) || []).length;   //automatically balance parantheses before evaluation
 				const closeCount = (display.match(/\)/g) || []).length;
 
@@ -34,6 +33,7 @@ function App() {
 			}
 		} else if (value === "()") {                                     // Handle parentheses logic
 			const lastChar = display[display.length - 1];
+
 			if (!display || "+-*/(".includes(lastChar)) {                // Append "(" if it's the beginning or after an operator
 				setDisplay((prev) => prev + "(");
 			} else {                                                     // Append ")" if there’s a matching open parenthesis
@@ -45,7 +45,18 @@ function App() {
 					setDisplay((prev) => prev + "*(");
 				}
 			}
-        } else if (!isNaN(value) || value === '.') {
+        } else if (value === "+/-"){
+			const regex = /(-?\d+(\.\d*)?)$/; // This matches the last number, including negative numbers and decimals
+			const match = display.match(regex);
+
+			if (match) {
+			const lastNumber = match[0];	
+			const newNumber = lastNumber.startsWith("-")
+				? lastNumber.slice(1) // Remove negative sign
+				: "-" + lastNumber;   // Add negative sign
+			    setDisplay((prev) => prev.slice(0, -lastNumber.length) + newNumber);
+			}
+		} else if (!isNaN(value) || value === '.') {
 			const lastChar = display[display.length - 1];
 			if (lastChar === ")") {
 				setDisplay((prev) => prev + "*" + value);
@@ -177,8 +188,5 @@ function App() {
 			
 		</>
 	);
-
-  
 }
-
 export default App
