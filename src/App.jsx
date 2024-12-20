@@ -135,18 +135,10 @@ function App() {
 				</div>
 				<div className='button-wrapper'>
 					<div className='rows'>
-						<div>
-							<button className='clear' onClick={handleClear}>C</button>
-						</div>
-						<div>
-							<button className='operator' onClick={() => handleClick("()")}>( )</button>
-						</div>
-						<div>
-							<button className='operator' onClick={() => handleClick("%")}>%</button>
-						</div>
-						<div>
-							<button className='operator' onClick={() => handleClick("/")}><FontAwesomeIcon icon={faDivide} /></button>
-						</div>
+						<button className='clear' onClick={handleClear}>C</button>
+						<button className='operator' onClick={() => handleClick("()")}>( )</button>
+						<button className='operator' onClick={() => handleClick("%")}>%</button>
+						<button className='operator' onClick={() => handleClick("/")}><FontAwesomeIcon icon={faDivide} /></button>
 					</div>
 					<div className='rows'>
 						{["7", "8", "9", <FontAwesomeIcon icon={faXmark}/>].map((item, index) => (
