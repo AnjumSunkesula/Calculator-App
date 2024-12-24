@@ -1,0 +1,14 @@
+.scale-converter{
+    display: grid;
+}
+.header{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: system-ui;
+    font-size: 18px;
+    color: rgb(144, 144, 227);
+    letter-spacing: .5px;
+}
+
+
