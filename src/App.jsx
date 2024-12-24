@@ -151,8 +151,7 @@ function App() {
 			    )}
 
 				{view === 'scaleConverter' && (
-			        // <ScaleConverter display={display} setDisplay={setDisplay} handleClick={handleClick} />
-			        <ScaleConverter toggleView={toggleView} />
+			        <ScaleConverter toggleView={toggleView} handleClick={handleClick} />
 				)}
 
 			</div>
