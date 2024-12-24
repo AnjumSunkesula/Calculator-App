@@ -2,11 +2,18 @@ import './App.css'
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faDivide, faMinus, faPlus, faXmark, faEquals, faClock, faRulerHorizontal, faDeleteLeft} from '@fortawesome/free-solid-svg-icons'
+import Keypad from './components/keypad';
+import ScaleConverter from './components/ScaleConverter/scaleConverter';
 
 function App() {
 
 	const [display, setDisplay] = useState(""); // State to manage the input and result
 	const [history, setHistory] = useState([]);
+	const [view, setView] = useState('calculator');
+
+	const toggleView = () => {
+		setView((prevView) => (prevView === 'calculator' ? 'scaleConverter' : 'calculator'));
+	};
 	
 	const handleClick = (value) => {
 		if (React.isValidElement(value)) {
@@ -112,69 +119,41 @@ function App() {
 	return(
 		<>
 			<div className='container'>
-				<div className='display'>
-					{display || <span className='cursor'></span>}
-				</div>
-				{history.length > 0 && display === history.join("\n") && (
-					<button onClick={handleClearHistory} className='clear-history'>Clear history</button>
-				)}
-				<div className='math-icons'>
-					<div className='jBSwj'>
-						<FontAwesomeIcon icon={faClock} onClick={handleStoreHistory} className='icon'/>
-						<FontAwesomeIcon icon={faRulerHorizontal} className='icon'/>
-						<div className='icon-container'>
-							<span>&#8730;</span> 
-							<span>&#960;</span> 
-							<span>&#949;</span>
-							<span>=</span> 
+				{view === 'calculator' && (
+					<>
+					    <div className='display'>
+							{display || <span className='cursor'></span>}
 						</div>
-					</div>
-					<div className='JHWha'>
-						<FontAwesomeIcon icon={faDeleteLeft} onClick={handleDelete}  className='icon'/>
-					</div>
-				</div>
-				<div className='button-wrapper'>
-					<div className='rows'>
-						<button className='clear' onClick={handleClear}>C</button>
-						<button className='operator' onClick={() => handleClick("()")}>( )</button>
-						<button className='operator' onClick={() => handleClick("%")}>%</button>
-						<button className='operator' onClick={() => handleClick("/")}><FontAwesomeIcon icon={faDivide} /></button>
-					</div>
-					<div className='rows'>
-						{["7", "8", "9", <FontAwesomeIcon icon={faXmark}/>].map((item, index) => (
-							<button 
-							    key={index} onClick={() => handleClick(item)} 
-							    className={React.isValidElement(item) && item.props.icon.iconName === "xmark" ? "operator" : ''} >
-								{item}
-							</button>
-						))}
-					</div>
-					<div className='rows'>
-						{["4", "5", "6", <FontAwesomeIcon icon={faMinus}/>].map((item, index) => (
-							<button 
-							    key={index} onClick={() => handleClick(item)} 
-								className={React.isValidElement(item) && item.props.icon.iconName === "minus" ? "operator" : ''}>
-								{item}
-							</button>
-						))}
-					</div>
-					<div className='rows'>
-						{["1", "2", "3", <FontAwesomeIcon icon={faPlus}/>].map((item, index) => (
-							<button 
-							    key={index} onClick={() => handleClick(item)} 
-								className={React.isValidElement(item) && item.props.icon.iconName === "plus" ? "operator" : ""}>
-								{item}
-							</button>
-						))}
-					</div>
-					<div className='rows'>
-						{["+/-", "0", ".", "="].map((item, index) => (
-							<button key={index} onClick={() => handleClick(item)} className = {item === "=" ? "equals" : ''}>
-								{item}
-							</button>
-						))}
-					</div>
-				</div>
+						{history.length > 0 && display === history.join("\n") && (
+							<button onClick={handleClearHistory} className='clear-history'>Clear history</button>
+						)}
+						<div className='math-icons'>
+							<div className='jBSwj'>
+								<FontAwesomeIcon icon={faClock} onClick={handleStoreHistory} className='icon'/>
+								<FontAwesomeIcon 
+									icon={faRulerHorizontal} 
+									onClick={toggleView} 
+									className='icon'
+								/>
+								<div className='icon-container'>
+									<span>&#8730;</span> 
+									<span>&#960;</span> 
+									<span>&#949;</span>
+									<span>=</span> 
+								</div>
+							</div>
+							<div className='JHWha'>
+								<FontAwesomeIcon icon={faDeleteLeft} onClick={handleDelete}  className='icon'/>
+							</div>
+						</div>
+				        <Keypad handleClick={handleClick} handleClear={handleClear}/>
+					</>
+			    )}
+
+				{view === 'scaleConverter' && (
+			        // <ScaleConverter display={display} setDisplay={setDisplay} handleClick={handleClick} />
+			        <ScaleConverter toggleView={toggleView} />
+				)}
 
 			</div>
 			
