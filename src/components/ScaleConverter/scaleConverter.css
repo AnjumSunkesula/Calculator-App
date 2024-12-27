@@ -1,5 +1,7 @@
 .scale-converter{
     display: grid;
+    gap: 5px;
+    max-width: 260px;
 }
 .header{
     display: flex;
@@ -7,8 +9,44 @@
     gap: 10px;
     font-family: system-ui;
     font-size: 18px;
-    color: rgb(144, 144, 227);
+    color: rgb(176, 176, 228);
     letter-spacing: .5px;
 }
+.categories{
+    display: flex;
+    flex-wrap: wrap;
+    overflow-x: scroll ;
+    gap: 5px;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+.categories button{
+    background-color: transparent;
+    border: none;
+    color: #ccc;
+}
+.categories button.active{
+    color: rgb(176, 176, 228);
+    background-color: rgb(46, 46, 46);
+    border-radius: 12px;
+    padding: 5px;
+}
 
+.from-unit, .to-unit{
+    height: 15vh;
+    border-bottom: 1px solid grey;
+}
+.from-unit span{
+    position: relative;
+    top: 40px;
+    left: 50px;
+    transform: translate(-50%, -50%);
+
+}
+.from-unit select, .to-unit select{
+    color: rgb(176, 176, 228);
+    background-color: transparent;
+    border: none;
+}
 
