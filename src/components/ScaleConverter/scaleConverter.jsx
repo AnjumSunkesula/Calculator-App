@@ -31,9 +31,15 @@ function ScaleConverter ({ toggleView, handleClick, display }) {
             },
         },
         Area: {
-            units: ["Square Meters", "Square Kilometers", "Acres", "Hectares"],
+            units: ["Ares", "Square Metres", "Square Centimetres", "Acres", "Hectares", "Square Feet", "Square Inches"],
             conversion: {
-
+                Ares: { SquareMetres: 100, SquareCentimetres: 1000000, Acres: 0.024, Hectares: 0.01, SquareFeet: 1076.39, SquareInches: 155000.31},
+                SquareMetres: { Ares: 0.01, SquareCentimetres: 10000, Acres: 0.00024, Hectares: 10000, SquareFeet: 10.76, SquareInches: 1550.003 },
+                SquareCentimetres: { Ares: 0.000001, SquareMetres: 0.0001, Acres: 2.471, Hectares: 1.00, SquareFeet: 0.0010, SquareInches: 0.155 },
+                Acres: { Ares: 40.4, SquareMetres: 4046.85, SquareCentimetres: 40468564.224, Hectares: 0.404, SquareFeet: 43560, SquareInches: 6272640 },
+                Hectares: { Ares: 100, SquareMetres: 10000, SquareCentimetres: 100000000, Acres: 2.47, SquareFeet: 107639.10, SquareInches: 15500031 },
+                SquareFeet: { Ares: 0.00092, SquareMetres: 0.092, SquareCentimetres: 929.03, Acres: 0.000022, Hectares: 0.0000092, SquareInches: 144 },
+                SquareInches: { Ares: 0.0000064, SquareMetres: 0.00064, SquareCentimetres: 6.4516, Acres: 1.594, Hectares: 6.451, SquareFeet: 0.006 }, 
             },
         },
         Temparature: {
@@ -84,7 +90,12 @@ function ScaleConverter ({ toggleView, handleClick, display }) {
     // Perform the conversion
     const performConversion = (value) => {
         const numValue = parseFloat(value) || 0;
-        const conversionFactor = categories[currentCategory].conversion[fromUnit][toUnit];
+
+        // Remove spaces from the unit names for internal use in conversion
+        const fromUnitKey = fromUnit.replace(/\s+/g, '');
+        const toUnitKey = toUnit.replace(/\s+/g, '');                               // Remove all spaces
+
+        const conversionFactor = categories[currentCategory].conversion[fromUnitKey][toUnitKey];
         return (numValue * conversionFactor).toFixed(2);
     };
 
@@ -112,7 +123,6 @@ function ScaleConverter ({ toggleView, handleClick, display }) {
                                 setCurrentCategory(category);
                                 setFromUnit(categories[category].units[0]);
                                 setToUnit(categories[category].units[1]);
-                                setInputValue("1");
                             }}
                             className={currentCategory === category ? "active" : ""}
                         >
@@ -133,8 +143,9 @@ function ScaleConverter ({ toggleView, handleClick, display }) {
                                 </option>
                             ))}
                         </select>
-                        <span>
-                            {display || "1"} {fromUnit.slice(0, 2).toLowerCase()}
+                        {/* if the display is empty, it falls back to the value of "1" */}
+                        <span className='ip-value'>
+                            {display || "1"} {fromUnit.slice(0, 2).toLowerCase()}               
                         </span>
                     </div>
                     <div className="to-unit">
@@ -148,7 +159,7 @@ function ScaleConverter ({ toggleView, handleClick, display }) {
                                 </option>
                             ))}
                         </select>
-                        <span>
+                        <span className='op-value'>
                             {performConversion(display || "1")} {toUnit.slice(0, 2).toLowerCase()}
                         </span>
                     </div>
