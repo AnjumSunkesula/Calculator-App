@@ -8,9 +8,8 @@ import Keypad from '../keypad';
 
 
 
-function ScaleConverter ({ toggleView, handleClick }) {
+function ScaleConverter ({ toggleView, handleClick, display }) {
 
-    const [inputValue, setInputValue] = useState("1");
     const [currentCategory, setCurrentCategory] = useState("Length");
     const [fromUnit, setFromUnit] = useState("Inches");
     const [toUnit, setToUnit] = useState("Centimetres");
@@ -82,19 +81,6 @@ function ScaleConverter ({ toggleView, handleClick }) {
 
     };
 
-
-    
-
-    const handleKeypadClick = (key) => {
-        if (key === "C") {
-            setInputValue(""); // Clear input
-        } else if (key === "←") {
-            setInputValue((prev) => prev.slice(0, -1)); // Remove last digit
-        } else {
-            setInputValue((prev) => (prev === "0" ? key : prev + key)); // Append digit
-        }
-    };
-
     // Perform the conversion
     const performConversion = (value) => {
         const numValue = parseFloat(value) || 0;
@@ -148,7 +134,7 @@ function ScaleConverter ({ toggleView, handleClick }) {
                             ))}
                         </select>
                         <span>
-                            {inputValue} {fromUnit.slice(0, 2).toLowerCase()}
+                            {display || "1"} {fromUnit.slice(0, 2).toLowerCase()}
                         </span>
                     </div>
                     <div className="to-unit">
@@ -163,7 +149,7 @@ function ScaleConverter ({ toggleView, handleClick }) {
                             ))}
                         </select>
                         <span>
-                            {performConversion(inputValue)} {toUnit.slice(0, 2).toLowerCase()}
+                            {performConversion(display || "1")} {toUnit.slice(0, 2).toLowerCase()}
                         </span>
                     </div>
                 </div>
