@@ -135,41 +135,41 @@ function ScaleConverter ({ toggleView, handleClick }) {
                     ))}
                 </div>
 
-                 <div className="conversion-display">
-                <div className="from-unit">
-                    <select
-                        value={fromUnit}
-                        onChange={(e) => setFromUnit(e.target.value)}
-                    >
-                        {categories[currentCategory].units.map((unit) => (
-                            <option key={unit} value={unit}>
-                                {unit}
-                            </option>
-                        ))}
-                    </select>
-                    <span>
-                        {inputValue} {fromUnit.slice(0, 2).toLowerCase()}
-                    </span>
+                <div className="conversion-display">
+                    <div className="from-unit">
+                        <select
+                            value={fromUnit}
+                            onChange={(e) => setFromUnit(e.target.value)}
+                        >
+                            {categories[currentCategory].units.map((unit) => (
+                                <option key={unit} value={unit}>
+                                    {unit}
+                                </option>
+                            ))}
+                        </select>
+                        <span>
+                            {inputValue} {fromUnit.slice(0, 2).toLowerCase()}
+                        </span>
+                    </div>
+                    <div className="to-unit">
+                        <select
+                            value={toUnit}
+                            onChange={(e) => setToUnit(e.target.value)}
+                        >
+                            {categories[currentCategory].units.map((unit) => (
+                                <option key={unit} value={unit}>
+                                    {unit}
+                                </option>
+                            ))}
+                        </select>
+                        <span>
+                            {performConversion(inputValue)} {toUnit.slice(0, 2).toLowerCase()}
+                        </span>
+                    </div>
                 </div>
-                <div className="to-unit">
-                    <select
-                        value={toUnit}
-                        onChange={(e) => setToUnit(e.target.value)}
-                    >
-                        {categories[currentCategory].units.map((unit) => (
-                            <option key={unit} value={unit}>
-                                {unit}
-                            </option>
-                        ))}
-                    </select>
-                    <span>
-                        {performConversion(inputValue)} {toUnit.slice(0, 2).toLowerCase()}
-                    </span>
-                </div>
-            </div>
 
             </div>
-            <Keypad handleClick={handleKeypadClick} />
+            <Keypad handleClick={handleClick} />
         </>
     );
 }
