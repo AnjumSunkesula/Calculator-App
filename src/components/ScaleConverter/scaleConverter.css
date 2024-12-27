@@ -40,23 +40,30 @@
 .from-unit, .to-unit{
     height: 12vh;
     border-bottom: 1px solid rgb(55, 53, 53);
+    position: relative;
 }
 .ip-value, .op-value{
-    position: relative;
-    top: 45px;
-    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 70%;
+    transform: translateY(-50%);
     font-family: sans-serif;
     color: rgb(158, 158, 197);
+    white-space: nowrap;
+    right: 0;
 }
 .ip-value{
-    left: 137px;
+    left: 233px;
 }
 .op-value{
-    left: 110px;
+    left: 207px;
 }
 .from-unit select, .to-unit select{
     color: rgb(158, 158, 197);
     background-color: transparent;
     border: none;
 }
+.from-unit select:focus,.to-unit select:focus{
+    outline: none;
+}
+
 
