@@ -46,8 +46,8 @@ function ScaleConverter ({ toggleView, handleClick, display }) {
             units: ["Fahrenheit", "Celsius" , "Kelvin"],
             conversion: {
                 Fahrenheit: { Celsius: -17.2222, Kelvin: 255.92},
-                Celsius: {Farenheit:33.8, Kelvin: 274.15 },
-                Kelvin: {Celsius: -272.15, Farenheit: -457.87},
+                Celsius: { Farenheit:33.8, Kelvin: 274.15 },
+                Kelvin: { Celsius: -272.15, Farenheit: -457.87},
             },
         },
         Volume: {
@@ -55,18 +55,24 @@ function ScaleConverter ({ toggleView, handleClick, display }) {
             conversion: {
                 USGallons : { UKGallons: 0.832,  Litres: 3.785, Millilitres: 3785.411,CubicCentimetres: 3785.411, CubicMetres: 0.0037, CubicInches: 231,CubicFeet: 0.133 },
                 UKGallons: { Litres: 4.546, Millilitres: 4546.09,CubicCentimetres: 4546.09, CubicMetres: 0.0045, CubicInches: 277.419,CubicFeet: 0.1605, USGallons: 1.2009},
-                Litres: {UKGallons: 0.2199,   Millilitres: 1000,CubicCentimetres: 1000, CubicMetres: 0.001, CubicInches: 61.023 ,CubicFeet: 0.0353, USGallons:0.264},
-                Millilitres: {UKGallons: 0.00021,  Litres: 0.001, CubicCentimetres: 1, CubicMetres: 0.000001, CubicInches: 0.0610, CubicFeet: 0.0000353, USGallons: 0.00026},
-                CubicCentimetres: {UKGallons: 0.000219,  Litres: 0.001, Millilitres: 1, CubicMetres: 0.000001, CubicInches: 0.0610, CubicFeet: 0.0000353, USGallons: 0.00026},
-                CubicMetres: {UKGallons: 219.96,  Litres: 1000, Millilitres: 1000000,CubicCentimetres: 1000000,  CubicInches: 61023.744, CubicFeet: 35.314, USGallons: 264.17},
-                CubicInches: {UKGallons: 0.0036,  Litres: 0.016, Millilitres: 16.38, CubicCentimetres: 16.38, CubicMetres: 0.0000163, CubicFeet: 0.00057, USGallons: 0.00432},
-                CubicFeet: {UKGallons: 6.22,  Litres: 28.31, Millilitres: 28316.84, CubicCentimetres: 28316.84, CubicMetres: 0.0283, CubicInches: 1728, USGallons: 7.4805},
+                Litres: { UKGallons: 0.2199,   Millilitres: 1000,CubicCentimetres: 1000, CubicMetres: 0.001, CubicInches: 61.023 ,CubicFeet: 0.0353, USGallons:0.264},
+                Millilitres: { UKGallons: 0.00021,  Litres: 0.001, CubicCentimetres: 1, CubicMetres: 0.000001, CubicInches: 0.0610, CubicFeet: 0.0000353, USGallons: 0.00026},
+                CubicCentimetres: { UKGallons: 0.000219,  Litres: 0.001, Millilitres: 1, CubicMetres: 0.000001, CubicInches: 0.0610, CubicFeet: 0.0000353, USGallons: 0.00026},
+                CubicMetres: { UKGallons: 219.96,  Litres: 1000, Millilitres: 1000000,CubicCentimetres: 1000000,  CubicInches: 61023.744, CubicFeet: 35.314, USGallons: 264.17},
+                CubicInches: { UKGallons: 0.0036,  Litres: 0.016, Millilitres: 16.38, CubicCentimetres: 16.38, CubicMetres: 0.0000163, CubicFeet: 0.00057, USGallons: 0.00432},
+                CubicFeet: { UKGallons: 6.22,  Litres: 28.31, Millilitres: 28316.84, CubicCentimetres: 28316.84, CubicMetres: 0.0283, CubicInches: 1728, USGallons: 7.4805},
             },
         },
         Mass: {
-            units: [],
+            units: ["Tons", "UK Tons", "US Tons", "Pounds", "Ounces", "Kilogrammes", "Grams"],
             conversion: {
-
+                Tons: { UKTons: 0.984, USTons: 1.102, Pounds: 2204.62, Ounces: 35273.96, Kilogrammes: 1000, Grams: 1000000},
+                UKTons: { Tons: 1.016,  USTons: 1.12, Pounds: 2240, Ounces: 35840, Kilogrammes: 1016.04, Grams: 1016046.908 },
+                USTons: { Tons: 0.907, UKTons: 0.8928,  Pounds: 2000, Ounces: 32000, Kilogrammes: 907.18, Grams: 907184.74 },
+                Pounds: { Tons: 0.00045, UKTons: 0.000446, USTons: 0.0005,  Ounces: 16, Kilogrammes: 0.4535, Grams: 453.59 },
+                Ounces: { Tons: 0.000028, UKTons: 0.000027, USTons: 0.000031, Pounds: 0.0625,  Kilogrammes: 0.0283, Grams: 28.34 },
+                Kilogrammes: { Tons: 0.001, UKTons: 0.00098, USTons: 0.0011, Pounds: 2.204, Ounces: 35.273,  Grams: 1000 },
+                Grams: { Tons: 0.00001, UKTons: 9.842, USTons: 0.0000011, Pounds: 0.0022, Ounces: 0.0352, Kilogrammes: 0.001 },
             },
         },
         Data: {
