@@ -51,9 +51,16 @@ function ScaleConverter ({ toggleView, handleClick, display }) {
             },
         },
         Volume: {
-            units: [],
+            units: ["US Gallons","UK Gallons", "Litres", "Millilitres", "Cubic Centimetres", "Cubic Metres", "Cubic Inches", "Cubic Feet"],
             conversion: {
-
+                USGallons : { UKGallons: 0.832,  Litres: 3.785, Millilitres: 3785.411,CubicCentimetres: 3785.411, CubicMetres: 0.0037, CubicInches: 231,CubicFeet: 0.133 },
+                UKGallons: { Litres: 4.546, Millilitres: 4546.09,CubicCentimetres: 4546.09, CubicMetres: 0.0045, CubicInches: 277.419,CubicFeet: 0.1605, USGallons: 1.2009},
+                Litres: {UKGallons: 0.2199,   Millilitres: 1000,CubicCentimetres: 1000, CubicMetres: 0.001, CubicInches: 61.023 ,CubicFeet: 0.0353, USGallons:0.264},
+                Millilitres: {UKGallons: 0.00021,  Litres: 0.001, CubicCentimetres: 1, CubicMetres: 0.000001, CubicInches: 0.0610, CubicFeet: 0.0000353, USGallons: 0.00026},
+                CubicCentimetres: {UKGallons: 0.000219,  Litres: 0.001, Millilitres: 1, CubicMetres: 0.000001, CubicInches: 0.0610, CubicFeet: 0.0000353, USGallons: 0.00026},
+                CubicMetres: {UKGallons: 219.96,  Litres: 1000, Millilitres: 1000000,CubicCentimetres: 1000000,  CubicInches: 61023.744, CubicFeet: 35.314, USGallons: 264.17},
+                CubicInches: {UKGallons: 0.0036,  Litres: 0.016, Millilitres: 16.38, CubicCentimetres: 16.38, CubicMetres: 0.0000163, CubicFeet: 0.00057, USGallons: 0.00432},
+                CubicFeet: {UKGallons: 6.22,  Litres: 28.31, Millilitres: 28316.84, CubicCentimetres: 28316.84, CubicMetres: 0.0283, CubicInches: 1728, USGallons: 7.4805},
             },
         },
         Mass: {
