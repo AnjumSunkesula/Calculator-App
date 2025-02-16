@@ -43,9 +43,11 @@ function ScaleConverter ({ toggleView, handleClick, display }) {
             },
         },
         Temparature: {
-            units: [],
+            units: ["Fahrenheit", "Celsius" , "Kelvin"],
             conversion: {
-
+                Fahrenheit: { Celsius: -17.2222, Kelvin: 255.92},
+                Celsius: {Farenheit:33.8, Kelvin: 274.15 },
+                Kelvin: {Celsius: -272.15, Farenheit: -457.87},
             },
         },
         Volume: {
