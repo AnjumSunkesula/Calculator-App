@@ -76,9 +76,18 @@ function ScaleConverter ({ toggleView, handleClick, display }) {
             },
         },
         Data: {
-            units: [],
+            units: ["Bits", "Bytes", "Kilobytes", "Kibibytes", "Megabytes", "Mebibytes", "Gigabytes", "Gibibytes", "Terabytes", "Tebibytes"],
             conversion: {
-
+                Bits: {  Bytes: 0.125, Kilobytes: 0.000125, Kibibytes: 0.000122, Megabytes: 1.2500, Mebibytes: 1.192, Gigabytes: 1.2500, Gibibytes: 1.1641,Terabytes: 1.2500, Tebibytes: 1.136 },
+                Bytes: { Bits: 8,  Kilobytes: 0.001, Kibibytes: 0.00097, Megabytes: 0.000001, Mebibytes: 9.5367, Gigabytes: 1.0000, Gibibytes: 9.313,Terabytes: 1.000, Tebibytes: 9.0949 },
+                Kilobytes: { Bits: 8000, Bytes: 1000, Kibibytes: 0.976, Megabytes: 0.001, Mebibytes: 0.00095, Gigabytes: 0.000001, Gibibytes: 9.3132,Terabytes: 1.00, Tebibytes: 9.0949 },
+                Kibibytes: { Bits: 8192, Bytes: 1024, Kilobytes: 1.024, Megabytes: 0.00102, Mebibytes: 0.000976, Gigabytes: 0.000001024, Gibibytes: 9.5367,Terabytes: 1.02400, Tebibytes: 9.3132 },
+                Megabytes: { Bits: 8000000, Bytes: 1000000, Kilobytes: 1000, Kibibytes: 976.56, Mebibytes: 0.9536, Gigabytes: 0.001, Gibibytes: 0.00093,Terabytes: 0.000001, Tebibytes: 9.094 },
+                Mebibytes: { Bits: 8388608, Bytes: 1048576, Kilobytes: 1048.576, Kibibytes: 1024, Megabytes: 1.0485,  Gigabytes: 0.0010, Gibibytes: 0.00097,Terabytes: 0.00000104, Tebibytes: 9.5367 },
+                Gigabytes: { Bits: 8000000000, Bytes: 1000000000, Kilobytes: 1000000, Kibibytes: 976562.5, Megabytes: 1000, Mebibytes: 953.67, Gibibytes: 0.931,Terabytes: 0.001, Tebibytes: 0.0009 },
+                Gibibytes: { Bits: 8589934592, Bytes: 1073741824, Kilobytes: 1073741.824, Kibibytes: 1048576, Megabytes: 1073.74, Mebibytes: 1024, Gigabytes: 1.073, Terabytes: 0.0010, Tebibytes: 0.000976 },
+                Terabytes: { Bits: 8000000000000, Bytes: 1000000000000, Kilobytes: 1000000000, Kibibytes: 976562500, Megabytes: 1000000, Mebibytes: 953674.31, Gigabytes: 1000, Gibibytes: 931.32,Tebibytes: 0.909 },
+                Tebibytes: { Bits: 8796093022208, Bytes: 1099511627776, Kilobytes: 1099511627.776, Kibibytes: 1073741824, Megabytes: 1099511.62, Mebibytes: 1048576, Gigabytes: 1099.5116, Gibibytes: 1024,Terabytes: 1.0995 },
             },
         },
         Speed: {
