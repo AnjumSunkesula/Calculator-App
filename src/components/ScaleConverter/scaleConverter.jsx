@@ -91,13 +91,23 @@ function ScaleConverter ({ toggleView, handleClick, display }) {
             },
         },
         Speed: {
-            units: [],
+            units: ["Metres Per Second", "Metres Per Hour", "Kilometres Per Second", "Kilometres Per Hour", "Inches Per Second", "Inches Per Hour", "Feet Per Second", "Feet Per Hour", "Miles Per Second", "Miles Per Hour", "Knots"],
             conversion: {
-
+               MetresPerSecond: {  MetresPerHour: 3600, KilometresPerSecond: 0.001, KilometresPerHour: 3.6, InchesPerSecond: 39.370, InchesPerHour: 141732.28, FeetPerSecond: 3.280, FeetPerHour: 11811.023, MilesPerSecond: 0.00062, MilesPerHour: 2.236, Knots: 1.9438 },
+               MetresPerHour: { MetresPerSecond: 0.00027,  KilometresPerSecond: 2.777, KilometresPerHour: 0.001, InchesPerSecond: 0.010, InchesPerHour: 39.37, FeetPerSecond: 0.00091, FeetPerHour: 3.280, MilesPerSecond: 1.7260, MilesPerHour: 0.00062, Knots: 0.000539 },
+               KilometresPerSecond: { MetresPerSecond: 1000, MetresPerHour: 3600000,  KilometresPerHour: 3600, InchesPerSecond: 39370.07, InchesPerHour: 141732283.46, FeetPerSecond: 3280.83, FeetPerHour: 11811023.622, MilesPerSecond: 0.62137, MilesPerHour: 2236.93, Knots: 1943.844 },
+               KilometresPerHour: { MetresPerSecond: 0.277, MetresPerHour: 1000, KilometresPerSecond: 0.0002,  InchesPerSecond: 10.936, InchesPerHour: 39370.07, FeetPerSecond: 0.91134, FeetPerHour: 3280.83, MilesPerSecond: 0.000172, MilesPerHour: 0.62137, Knots: 0.53995 },
+               InchesPerSecond: { MetresPerSecond: 0.0254, MetresPerHour: 91.44, KilometresPerSecond: 0.0000254, KilometresPerHour: 0.09144, InchesPerHour: 3600, FeetPerSecond: 0.0833, FeetPerHour: 300, MilesPerSecond: 0.0000157, MilesPerHour: 0.05681, Knots: 0.0493 },
+               InchesPerHour: { MetresPerSecond: 0.0000070556, MetresPerHour: 0.0254, KilometresPerSecond: 7.0555, KilometresPerHour: 0.0000254, InchesPerSecond: 0.000277, FeetPerSecond: 0.0000231, FeetPerHour: 0.08333, MilesPerSecond: 4.384, MilesPerHour: 0.0000157, Knots: 0.0000137 },
+               FeetPerSecond: { MetresPerSecond: 0.3048, MetresPerHour: 1097.28, KilometresPerSecond: 0.0003048, KilometresPerHour: 1.09728, InchesPerSecond: 12, InchesPerHour: 43200,  FeetPerHour: 3600, MilesPerSecond: 0.000189, MilesPerHour: 0.6818, Knots: 0.5924 },
+               FeetPerHour: { MetresPerSecond: 0.00008466, MetresPerHour: 0.3048, KilometresPerSecond: 8.4666, KilometresPerHour: 0.0003048, InchesPerSecond: 0.00333, InchesPerHour: 12, FeetPerSecond: 0.0002277,  MilesPerSecond: 5.26094, MilesPerHour: 0.000189, Knots: 0.000 },
+               MilesPerSecond: { MetresPerSecond: 1609.344, MetresPerHour: 5793638.4, KilometresPerSecond: 1.609344, KilometresPerHour: 5793.6384, InchesPerSecond: 63360, InchesPerHour: 228096000, FeetPerSecond: 5280, FeetPerHour: 19008000,  MilesPerHour: 3600, Knots: 3128.3144 },
+               MilesPerHour: { MetresPerSecond: 0.44704, MetresPerHour: 1609.344, KilometresPerSecond: 0.00044704, KilometresPerHour: 1.609344, InchesPerSecond: 17.6, InchesPerHour: 63360, FeetPerSecond: 1.4666, FeetPerHour: 5280, MilesPerSecond: 0.000277,  Knots: 0.86897 },
+               Knots: { MetresPerSecond: 0.5144, MetresPerHour: 1852, KilometresPerSecond: 0.0005144, KilometresPerHour: 1.852, InchesPerSecond: 20.25371, InchesPerHour: 72913.3858, FeetPerSecond: 1.687809, FeetPerHour: 6076.115, MilesPerSecond: 0.000319661, MilesPerHour: 1.15077 },
             },
         },
         Time: {
-            units: [ " Milliseconds","Seconds", "Minutes", "Hours", "Days", "Weeks"],
+            units: ["Milliseconds","Seconds", "Minutes", "Hours", "Days", "Weeks"],
             conversion: {
                 Milliseconds: {  Seconds: 0.001, Minutes: 0.000016667, Hours: 2.777, Days: 1.15740, Weeks: 1.653439  },     
                 Seconds: { Milliseconds: 1000,  Minutes: 0.0166666667, Hours: 0.002777778, Days: 0.0000115741, Weeks: 0.0000016534 },
