@@ -146,7 +146,7 @@ function App() {
 								<FontAwesomeIcon icon={faDeleteLeft} onClick={handleDelete}  className='icon'/>
 							</div>
 						</div>
-				        <Keypad handleClick={handleClick} handleClear={handleClear}/>
+				        <Keypad handleClick={handleClick} handleClear={handleClear} ScaleConverter={ScaleConverter}/>
 					</>
 			    )}
 
