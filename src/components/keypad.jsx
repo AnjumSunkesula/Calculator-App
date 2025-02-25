@@ -1,20 +1,20 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faDivide, faMinus, faPlus, faXmark} from '@fortawesome/free-solid-svg-icons';
+import {faDivide, faMinus, faPlus, faXmark, faDeleteLeft} from '@fortawesome/free-solid-svg-icons';
 
-function Keypad ({ handleClick, handleClear }) {
+function Keypad ({ handleClick, handleClear, ScaleConverter }) {
 
     return(
         <>
             <div className='button-wrapper'>
                 <div className='rows'>
-                    <button className='clear' onClick={handleClear}>C</button>
-                    <button className='operator' onClick={() => handleClick("()")}>( )</button>
-                    <button className='operator' onClick={() => handleClick("%")}>%</button>
-                    <button className='operator' onClick={() => handleClick("/")}><FontAwesomeIcon icon={faDivide} /></button>
+                    {ScaleConverter && <button className='clear' onClick={handleClear}>C</button>}
+                    {ScaleConverter && <button className='operator' onClick={() => handleClick("()")}>( )</button>}
+                    {ScaleConverter && <button className='operator' onClick={() => handleClick("%")}>%</button>}
+                    {ScaleConverter && <button className='operator' onClick={() => handleClick("/")}><FontAwesomeIcon icon={faDivide}/></button>}
                 </div>
                 <div className='rows'>
-                    {["7", "8", "9", <FontAwesomeIcon icon={faXmark}/>].map((item, index) => (
+                    {["7", "8", "9", ScaleConverter ? <FontAwesomeIcon icon={faDeleteLeft}/> : <FontAwesomeIcon icon={faXmark}/>].map((item, index) => (
                         <button 
                             key={index} onClick={() => handleClick(item)} 
                             className={React.isValidElement(item) && item.props.icon.iconName === "xmark" ? "operator" : ''} >
