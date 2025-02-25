@@ -14,20 +14,6 @@ function ScaleConverter ({ toggleView, handleClick, display }) {
     const [fromUnit, setFromUnit] = useState("Inches");
     const [toUnit, setToUnit] = useState("Centimetres");
 
-    // Tip and Split States
-    const [subtotal, setSubtotal] = useState(0);
-    const [tipPercentage, setTipPercentage] = useState(10);
-    const [total, setTotal] = useState(0);
-    const [modalType, setModalType] = useState(null);
-    const [showTipSections, setShowTipSections] = useState(false);
-
-    const tipAmount = (subtotal * tipPercentage) / 100;
-    const finalTotal = subtotal + tipAmount;
-
-    const openModal = (type) => setModalType(type);
-    const closeModal = () => setModalType(null);
-
-
 
     // Units and conversion factors
     const categories = {
@@ -132,13 +118,6 @@ function ScaleConverter ({ toggleView, handleClick, display }) {
                 Weeks: { Milliseconds: 604800000, Seconds: 604800, Minutes: 10080, Hours: 168, Days: 7},
             },
         },
-        Tip: {
-            units: [],
-            conversion: {
-
-            },
-        },
-
     };
 
     // Perform the conversion
@@ -219,62 +198,8 @@ function ScaleConverter ({ toggleView, handleClick, display }) {
                     </div>
                 </div>
 
-                <div style={{ padding: "16px" }}>
-                    {/* Tip Toggle Button */}
-                    <button onClick={() => setShowTipSections(true)} style={{ padding: "8px", border: "1px solid #ccc", borderRadius: "4px", background: "#f0f0f0", marginBottom: "12px" }}>Tip</button>
-                    
-                    {showTipSections && (
-                        <>
-                        {/* Subtotal Section */}
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-                            <span style={{ fontSize: "18px", fontWeight: "bold" }}>Subtotal</span>
-                            <input
-                            type="number"
-                            value={subtotal}
-                            onChange={(e) => setSubtotal(parseFloat(e.target.value) || 0)}
-                            style={{ border: "1px solid #ccc", padding: "8px", borderRadius: "4px", width: "80px", textAlign: "right" }}
-                            />
-                        </div>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-                            <button onClick={() => openModal("tip")} style={{ padding: "8px", border: "1px solid #ccc", borderRadius: "4px", background: "#f0f0f0" }}>{tipPercentage}%</button>
-                            <span style={{ fontSize: "18px" }}>₹{tipAmount.toFixed(2)}</span>
-                        </div>
-                        
-                        {/* Total Section */}
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "16px" }}>
-                            <span style={{ fontSize: "18px", fontWeight: "bold" }}>Total</span>
-                            <button onClick={() => openModal("total")} style={{ padding: "8px", border: "1px solid #ccc", borderRadius: "4px", background: "#f0f0f0" }}>₹{finalTotal.toFixed(2)}</button>
-                        </div>
-                        </>
-                    )}
-                    
-                    {/* Modal */}
-                    {modalType && (
-                        <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, background: "white", padding: "16px", borderTop: "1px solid #ccc" }}>
-                        <h2>{modalType === "tip" ? "Tip" : "Total"}</h2>
-                        <div style={{ maxHeight: "160px", overflowY: "auto" }}>
-                            {[...Array(100).keys()].map((num) => (
-                            <button
-                                key={num}
-                                style={{ display: "block", width: "100%", padding: "8px", textAlign: "left", border: "1px solid #ccc", marginBottom: "4px" }}
-                                onClick={() => {
-                                if (modalType === "tip") setTipPercentage(num);
-                                closeModal();
-                                }}
-                            >
-                                {num}%
-                            </button>
-                    ))}
-                </div>
-                
-                <div style={{ display: "flex", justifyContent: "space-between", marginTop: "16px" }}>
-                    <button onClick={closeModal} style={{ padding: "8px", border: "1px solid #ccc", borderRadius: "4px", background: "#f0f0f0" }}>Cancel</button>
-                    <button onClick={closeModal} style={{ padding: "8px", border: "1px solid #ccc", borderRadius: "4px", background: "#f0f0f0" }}>Done</button>
-                </div>
-        </div>
-      )}
-    </div>
 
+                
       
       
 
