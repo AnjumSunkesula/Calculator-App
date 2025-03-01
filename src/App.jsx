@@ -150,8 +150,10 @@ function App() {
 					</>
 			    )}
 
+				{/* need to pass handleclear and handledelete to scaleconveter too so that the imported keypad in the scaleconverter could have access to the functions.
+				those two functions are passed to keypad component above for calculator.need to pass them for both components. */}
 				{view === 'scaleConverter' && (
-			        <ScaleConverter toggleView={toggleView} handleClick={handleClick} display={display}/>
+			        <ScaleConverter toggleView={toggleView} handleClick={handleClick} display={display} handleClear={handleClear} handleDelete={handleDelete}/>
 				)}
 
 			</div>
