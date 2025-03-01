@@ -8,7 +8,7 @@ import Keypad from '../keypad';
 
 
 
-function ScaleConverter ({ toggleView, handleClick, display }) {
+function ScaleConverter ({ toggleView, handleClick, display, handleClear, handleDelete }) {
 
     const [currentCategory, setCurrentCategory] = useState("Length");
     const [fromUnit, setFromUnit] = useState("Inches");
@@ -20,7 +20,7 @@ function ScaleConverter ({ toggleView, handleClick, display }) {
         Length: {
             units: ["Inches", "Centimetres", "Millimetres", "Metres", "Kilometres", "Feet", "Yards", "Miles", "Mils"],
             conversion: {
-                Inches: { Centimetres: 2.54,  Millimetres: 25.4, Metres: 0.0254, Kilometers: 0.000025, Feet: 0.0833, Yards: 0.0278, Miles: 0.000015, Mils: 1000  },
+                Inches: { Centimetres: 2.54,  Millimetres: 25.4, Metres: 0.0254, Kilometres: 0.000025, Feet: 0.0833, Yards: 0.0278, Miles: 0.000015, Mils: 1000  },
                 Centimetres: { Inches: 0.3937, Millimetres: 10, Metres: 0.01, Feet: 0.0328, Yards: 0.0109, Kilometres: 0.00001, Miles: 0.00000062, Mils: 393.7 },
                 Metres: { Inches: 39.37, Millimetres: 1000,  Feet: 3.28, Yards: 1.09, Centimetres: 100, Kilometres: 0.001, Miles: 0.0006, Mils: 39370.07 },
                 Millimetres : {Inches: 0.0393, Centimetres: 0.1, Meters: 0.001, Kilometres: 0.000001, Feet: 0.0032, Yards: 0.0010, Miles: 6.213,  Mils: 39.37},
@@ -47,8 +47,8 @@ function ScaleConverter ({ toggleView, handleClick, display }) {
             units: ["Fahrenheit", "Celsius" , "Kelvin"],
             conversion: {
                 Fahrenheit: { Celsius: -17.2222, Kelvin: 255.92},
-                Celsius: { Farenheit:33.8, Kelvin: 274.15 },
-                Kelvin: { Celsius: -272.15, Farenheit: -457.87},
+                Celsius: { Fahrenheit:33.8, Kelvin: 274.15 },
+                Kelvin: { Celsius: -272.15, Fahrenheit: -457.87},
             },
         },
         Volume: {
@@ -204,7 +204,7 @@ function ScaleConverter ({ toggleView, handleClick, display }) {
       
 
             </div>
-            <Keypad handleClick={handleClick} />
+            <Keypad handleClick={handleClick} handleClear={handleClear} handleDelete={handleDelete}/>
         </>
     );
 }
