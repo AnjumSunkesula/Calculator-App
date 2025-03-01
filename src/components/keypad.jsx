@@ -1,7 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faDivide, faMinus, faPlus, faXmark, faDeleteLeft, faArrowUp, faArrowDown} from '@fortawesome/free-solid-svg-icons';
-import { icon } from "@fortawesome/fontawesome-svg-core";
 
 function Keypad ({ handleClick, handleClear, ScaleConverter, handleDelete }) {
 
