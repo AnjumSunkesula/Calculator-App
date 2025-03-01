@@ -14,12 +14,16 @@ function ScaleConverter ({ toggleView, handleClick, display, handleClear, handle
     const [fromUnit, setFromUnit] = useState("Inches");
     const [toUnit, setToUnit] = useState("Centimetres");
     const [cursorPosition, setCursorPosition] = useState("from");
+    const [activeField, setActiveField] = useState("from");
 
     const handleArrowKeys = (direction) => {
-        if (direction === "up" || direction === "down") {
-            setCursorPosition(cursorPosition === "from" ? "to" : "from");
-        }
-    };
+    if (direction === "up" || direction === "down") {
+        const newPosition = cursorPosition === "from" ? "to" : "from";
+        setCursorPosition(newPosition);
+        setActiveField(newPosition);
+    }
+};
+
 
 
 
@@ -187,8 +191,14 @@ function ScaleConverter ({ toggleView, handleClick, display, handleClear, handle
                                 </option>
                             ))}
                         </select>
-                        <span className={`ip-value ${cursorPosition === "from" ? "blink-cursor" : ""}`}>
-                            {display || "1"} {fromUnit.slice(0, 2).toLowerCase()}
+                        {/* if the display is empty, it falls back to the value of "1" */}
+                        {/* <span className='ip-value'>
+                            {display || "1"} {fromUnit.slice(0, 2).toLowerCase()}               
+                        </span> */}
+                        <span className={"ip-value"}>
+                            {display || "1"} 
+                            {activeField === 'from' && <span className='cursor'></span>}
+                            {fromUnit.slice(0, 2).toLowerCase()}
                         </span>
                     </div>
                     <div className="to-unit">
@@ -202,8 +212,13 @@ function ScaleConverter ({ toggleView, handleClick, display, handleClear, handle
                                 </option>
                             ))}
                         </select>
-                        <span className={`op-value ${cursorPosition === "to" ? "blink-cursor" : ""}`}>
+                        {/* <span className='op-value'>
                             {performConversion(display || "1")} {toUnit.slice(0, 2).toLowerCase()}
+                        </span> */}
+                        <span className="op-value">
+                            {performConversion(display || "1")}
+                            {activeField === 'to' && <span className='cursor'></span>}
+                            {toUnit.slice(0, 2).toLowerCase()}
                         </span>
                     </div>
                 </div>
