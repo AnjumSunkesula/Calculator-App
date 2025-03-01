@@ -57,7 +57,7 @@ function Keypad ({ handleClick, handleClear, ScaleConverter, handleDelete }) {
                 </div>
                 <div className='rows'>
                     {["+/-", "0", ".", !ScaleConverter ? <FontAwesomeIcon icon={faArrowDown} /> : "="].map((item, index) => (
-                        <button key={index} onClick={() => handleClick(item)} className = {item === "=" ? "equals" : ''} disabled={ScaleConverter && item === "+/-"}>
+                        <button key={index} onClick={() => handleClick(item)} className = {item === "=" ? "equals" : ''} disabled={!ScaleConverter && item === "+/-"}>
                             {item}
                         </button>
                     ))}
