@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faDivide, faMinus, faPlus, faXmark, faDeleteLeft, faArrowUp, faArrowDown} from '@fortawesome/free-solid-svg-icons';
 
-function Keypad ({ handleClick, handleClear, ScaleConverter, handleDelete, handleArrowKeys }) {
+function Keypad ({ handleClick, handleClear, ScaleConverter, handleDelete, handleArrowKeys, activeField }) {
 
 
 
@@ -43,7 +43,9 @@ function Keypad ({ handleClick, handleClear, ScaleConverter, handleDelete, handl
                         <button 
                             key={index} 
                             onClick={() => React.isValidElement(item) && item.props.icon.iconName === "arrow-up" ? handleArrowKeys("up") : handleClick(item)} 
-                            className={React.isValidElement(item) && item.props.icon.iconName === "plus" ? "operator" : ""}>
+                            className={React.isValidElement(item) && item.props.icon.iconName === "plus" ? "operator" : ""}
+                            disabled={React.isValidElement(item) && item.props.icon.iconName === "arrow-up" && activeField === "from"} // Disable up arrow if "from" is active
+                        >
                             {item}
                         </button>
                     ))}
@@ -53,7 +55,11 @@ function Keypad ({ handleClick, handleClear, ScaleConverter, handleDelete, handl
                         <button 
                             key={index} 
                             onClick={() => React.isValidElement(item) && item.props.icon.iconName === "arrow-down" ? handleArrowKeys("down") : handleClick(item)} 
-                            className = {item === "=" ? "equals" : ''}  disabled={!ScaleConverter && item === "+/-"}>
+                            className = {item === "=" ? "equals" : ''}  
+                            disabled={
+                                (!ScaleConverter && item === "+/-") ||  (React.isValidElement(item) && item.props.icon.iconName === "arrow-down" && activeField === "to") // Disable down arrow if "to" is active
+                            }
+                        >
                             {item}
                         </button>
                     ))}
