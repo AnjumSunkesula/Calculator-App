@@ -144,11 +144,6 @@ function ScaleConverter ({ toggleView, handleClick, display, handleClear, handle
         return (numValue * conversionFactor).toFixed(2);
     };
 
-    
-
-
-
-
 
     return(
         <>
@@ -191,14 +186,10 @@ function ScaleConverter ({ toggleView, handleClick, display, handleClear, handle
                                 </option>
                             ))}
                         </select>
-                        {/* if the display is empty, it falls back to the value of "1" */}
-                        {/* <span className='ip-value'>
-                            {display || "1"} {fromUnit.slice(0, 2).toLowerCase()}               
-                        </span> */}
-                        <span className={"ip-value"}>
+                        
+                        <span className={"ip-value"}>   {/* if the display is empty, it falls back to the value of "1" */}
                             {display || "1"} 
-                            {activeField === 'from' && <span className='cursor'></span>}
-                            {fromUnit.slice(0, 2).toLowerCase()}
+                            {activeField === 'from' && <span className='cursor'></span>} {fromUnit.slice(0, 2).toLowerCase()}
                         </span>
                     </div>
                     <div className="to-unit">
@@ -212,23 +203,15 @@ function ScaleConverter ({ toggleView, handleClick, display, handleClear, handle
                                 </option>
                             ))}
                         </select>
-                        {/* <span className='op-value'>
-                            {performConversion(display || "1")} {toUnit.slice(0, 2).toLowerCase()}
-                        </span> */}
+                       
                         <span className="op-value">
                             {performConversion(display || "1")}
-                            {activeField === 'to' && <span className='cursor'></span>}
-                            {toUnit.slice(0, 2).toLowerCase()}
+                            {activeField === 'to' && <span className='cursor'></span>} {toUnit.slice(0, 2).toLowerCase()}
                         </span>
                     </div>
                 </div>
-
-
-                
-      
-      
-
             </div>
+
             <Keypad handleClick={handleClick} handleClear={handleClear} handleDelete={handleDelete} handleArrowKeys={handleArrowKeys}/>
         </>
     );
