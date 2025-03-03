@@ -16,13 +16,13 @@ function ScaleConverter ({ toggleView, handleClick, display, handleClear, handle
     const [activeField, setActiveField] = useState("from");
 
     
-   const handleArrowKeys = (direction) => {
-    if (direction === "up" || direction === "down") {
-        const newPosition = cursorPosition === "from" ? "to" : "from";
-        setCursorPosition(newPosition);
-        setActiveField(newPosition);
-    }
-};
+    const handleArrowKeys = (direction) => {
+        if (direction === "up" && activeField !== "from") {
+            setActiveField("from");
+        } else if (direction === "down" && activeField !== "to") {
+            setActiveField("to");
+        }
+    };
 
 
     // Units and conversion factors
