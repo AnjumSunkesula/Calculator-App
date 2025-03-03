@@ -1,5 +1,6 @@
 import './App.css'
 import React, { useState } from "react";
+import { evaluate } from 'mathjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faDivide, faMinus, faPlus, faXmark, faEquals, faClock, faRulerHorizontal, faDeleteLeft} from '@fortawesome/free-solid-svg-icons'
 import Keypad from './components/keypad';
@@ -7,7 +8,7 @@ import ScaleConverter from './components/ScaleConverter/scaleConverter';
 
 function App() {
 
-	const [display, setDisplay] = useState(""); // State to manage the input and result
+	const [display, setDisplay] = useState("");                       // State to manage the input and result
 	const [history, setHistory] = useState([]);
 	const [view, setView] = useState('calculator');
 
@@ -16,27 +17,28 @@ function App() {
 	};
 	
 	const handleClick = (value) => {
-		if (React.isValidElement(value)) {
-			const operator = getIconSymbol(value);                      // getIconSymbol function converts icons to their corresponding operators
+		if (React.isValidElement(value)) {                              //checks if the value is a react elemrnt(an icon button)
+			const operator = getIconSymbol(value);                      // getIconSymbol function converts icons into their corresponding operators(+, -, *, /)
 			setDisplay((prev) => prev + operator);                      // Append the operator symbol as string
 		} else if (value === "=") {                                     // If the value is "=" (equal sign), calculate the result
 			try {
-				const openCount = (display.match(/\(/g) || []).length;   //automatically balance parantheses before evaluation
-				const closeCount = (display.match(/\)/g) || []).length;
+				const openCount = (display.match(/\(/g) || []).length;  // number of (
+				const closeCount = (display.match(/\)/g) || []).length; // number of )
 
-				let balancedDisplay = display;
-				if (openCount > closeCount) {
-					balancedDisplay += ")".repeat(openCount - closeCount); // Add missing closing parentheses
+				let balancedDisplay = display;                             // store the expression in a new variable for processing
+				if (openCount > closeCount) {                              // += : In JavaScript, strings are immutable, meaning you cannot change a part of an existing string.Instead, you create a new string by adding (concatenating) characters to the existing one.with just = it would be error.
+					balancedDisplay += ")".repeat(openCount - closeCount); // opencount-closecount: tells us how many ) to add.adds missing closing parantheses
 				}
 
-				const result = eval(balancedDisplay);                    //evaluate the balanced expression
-                setDisplay(result.toString());
-                setHistory((prevHistory) => [                           //store the calculation and result in history
-                    ...prevHistory,
-                    `${balancedDisplay} = ${result}`
-                ]);
+				const result = evaluate(balancedDisplay);  // Using mathjs instead of eval().evaluating the balanced expression
+				setDisplay(result.toString());
+
+				setHistory((prevHistory) => [
+					...prevHistory, 
+					`${balancedDisplay} = ${result}`
+				]);
 			} catch {
-				setDisplay("Error");                                     // Show error if there is a syntax issue in the expression
+				setDisplay("Error");
 			}
 		} else if (value === "()") {                                     // Handle parentheses logic
 			const lastChar = display[display.length - 1];
@@ -53,27 +55,30 @@ function App() {
 				}
 			}
         } else if (value === "+/-"){
-			const regex = /(-?\d+(\.\d*)?)$/; // This matches the last number, including negative numbers and decimals
+			const regex = /(-?\d+(\.\d*)?)$/;                 // This matches the last number, including negative numbers and decimals
 			const match = display.match(regex);
 
 			if (match) {
 			const lastNumber = match[0];	
 			const newNumber = lastNumber.startsWith("-")
-				? lastNumber.slice(1) // Remove negative sign
-				: "-" + lastNumber;   // Add negative sign
+				? lastNumber.slice(1)                         // Remove negative sign
+				: "-" + lastNumber;                           // Add negative sign
 			    setDisplay((prev) => prev.slice(0, -lastNumber.length) + newNumber);
 			}
-		} else if (!isNaN(value) || value === '.') {
-			const lastChar = display[display.length - 1];
+		} else if (!isNaN(value) || value === '.') {         //checks if the input "value" is a number or a decimal point
+			const lastChar = display[display.length - 1];    // get the last character of the current display
+
 			if (lastChar === ")") {
-				setDisplay((prev) => prev + "*" + value);
+				setDisplay((prev) => prev + "*" + value);    //insert a * before adding the number [ (2+3)5 => (2+3)*5 ]
 			} else {
-				setDisplay((prev) => prev + value);
+				setDisplay((prev) => prev + value);          // otherwise, just append the number or . as it is
 			}
 		} else {
-			setDisplay((prev) => prev + value);
-		}
-	};
+			setDisplay((prev) => prev + value);              // append any other char (such as an operator) directly to the display
+		}                                                    // append means adding something to the end of an existing value. setDisplay((prev) => prev + value); 1. prev holds the current value of display. 2. value is what the user just pressed (num, operator). 3. prev + value takes the existing display and adds a new input at the end[display=7,user presses . value, display=7.]. 4. setDisplay(...) updates the display state with this new value.                    
+	};                                                       
+
+	
 
 	const getIconSymbol = (icon) => {
 		switch (icon.props.icon) {
@@ -105,8 +110,7 @@ function App() {
 
 	// STORING PREVIOUS CALCULATIONS
 	const handleStoreHistory = () => {
-		const historyString = history.join("\n");
-		setDisplay(historyString);
+		setDisplay(history.join("\n"));
 	}
 	// CLEARING HISTORY
 	const handleClearHistory = () => {
@@ -135,12 +139,6 @@ function App() {
 									onClick={toggleView} 
 									className='icon'
 								/>
-								<div className='icon-container'>
-									<span>&#8730;</span> 
-									<span>&#960;</span> 
-									<span>&#949;</span>
-									<span>=</span> 
-								</div>
 							</div>
 							<div className='JHWha'>
 								<FontAwesomeIcon icon={faDeleteLeft} onClick={handleDelete}  className='icon'/>
@@ -157,7 +155,6 @@ function App() {
 				)}
 
 			</div>
-			
 		</>
 	);
 }
