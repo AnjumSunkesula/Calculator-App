@@ -13,18 +13,16 @@ function ScaleConverter ({ toggleView, handleClick, display, handleClear, handle
     const [currentCategory, setCurrentCategory] = useState("Length");
     const [fromUnit, setFromUnit] = useState("Inches");
     const [toUnit, setToUnit] = useState("Centimetres");
-    const [cursorPosition, setCursorPosition] = useState("from");
     const [activeField, setActiveField] = useState("from");
 
-    const handleArrowKeys = (direction) => {
+    
+   const handleArrowKeys = (direction) => {
     if (direction === "up" || direction === "down") {
         const newPosition = cursorPosition === "from" ? "to" : "from";
         setCursorPosition(newPosition);
         setActiveField(newPosition);
     }
 };
-
-
 
 
     // Units and conversion factors
@@ -134,12 +132,14 @@ function ScaleConverter ({ toggleView, handleClick, display, handleClear, handle
 
     // Perform the conversion
     const performConversion = (value) => {
-        const numValue = parseFloat(value) || 0;
+        const numValue = parseFloat(value) || 0;           //parseFloat converts a value into a floating-point number(12.34).if the value is not valid (abc,"",3.14ab) it returns 0.it works even without parseFloat.but,[("12.34" * 2) => 24.68] [("12.34" + 2) => 12.342] ( + used for string concatenation).refer to += in try{} of app.jsx
 
-        // Remove spaces from the unit names for internal use in conversion
+        // Remove spaces from the unit names so that they can be used as keys in conversion object
         const fromUnitKey = fromUnit.replace(/\s+/g, '');
-        const toUnitKey = toUnit.replace(/\s+/g, '');                               // Remove all spaces
+        const toUnitKey = toUnit.replace(/\s+/g, '');                               // Remove all spaces.
 
+        //In JavaScript objects, keys like "square meter" and "squaremeter" are not the same.If your conversion object uses keys without spaces (e.g., "squaremeter" instead of "square meter"), 
+        //then calling categories[currentCategory].conversion["square meter"]["square inch"] won't work because "square meter" doesn't exist as a key.By removing spaces from fromUnit and toUnit, you ensure they match the keys in your conversion object.
         const conversionFactor = categories[currentCategory].conversion[fromUnitKey][toUnitKey];
         return (numValue * conversionFactor).toFixed(2);
     };
@@ -212,7 +212,7 @@ function ScaleConverter ({ toggleView, handleClick, display, handleClear, handle
                 </div>
             </div>
 
-            <Keypad handleClick={handleClick} handleClear={handleClear} handleDelete={handleDelete} handleArrowKeys={handleArrowKeys}/>
+            <Keypad handleClick={handleClick} handleClear={handleClear} handleDelete={handleDelete} handleArrowKeys={handleArrowKeys} activeField={activeField}/>
         </>
     );
 }
