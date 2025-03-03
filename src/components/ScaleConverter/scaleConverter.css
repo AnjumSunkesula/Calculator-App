@@ -1,0 +1,69 @@
+.scale-converter{
+    display: grid;
+    gap: 5px;
+    max-width: 260px;
+}
+.header{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: system-ui;
+    font-size: 18px;
+    color: rgb(176, 176, 228);
+    letter-spacing: .5px;
+}
+.categories{
+    display: flex;
+    overflow: hidden;
+    overflow-x: scroll;
+    gap: 5px;
+    border-bottom: 1px solid rgb(55, 53, 53);
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+.categories button{
+    background-color: transparent;
+    border: none;
+    margin-bottom: 5px;
+    color: #ccc;
+}
+.categories button.active{
+    color: rgb(176, 176, 228);
+    border-radius: 12px;
+    padding: 5px;
+}
+.conversion-display{
+    display: grid;
+    gap: 5px;
+}
+.from-unit, .to-unit{
+    height: 12vh;
+    border-bottom: 1px solid rgb(55, 53, 53);
+    position: relative;
+}
+.ip-value, .op-value{
+    position: absolute;
+    top: 70%;
+    transform: translateY(-50%);
+    font-family: sans-serif;
+    color: rgb(158, 158, 197);
+    white-space: nowrap;
+    right: 0;
+}
+.ip-value{
+    left: 233px;
+}
+.op-value{
+    left: 207px;
+}
+.from-unit select, .to-unit select{
+    color: rgb(158, 158, 197);
+    background-color: transparent;
+    border: none;
+}
+.from-unit select:focus,.to-unit select:focus{
+    outline: none;
+}
+
+

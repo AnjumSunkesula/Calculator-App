@@ -113,3 +113,7 @@
 .rows .equals:hover{
     background-color: rgb(5, 151, 5);
 }
+button:disabled {
+    color: rgb(75, 75, 78);
+    cursor: not-allowed;
+}
