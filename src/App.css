@@ -7,8 +7,9 @@
     color: #fff;
     padding: 8px;
 }
+
 .display {
-    font-size: 20px;
+    font-size: 25px;
     padding: 10px;
     text-align: right;
     margin-bottom: 5px;
@@ -19,6 +20,7 @@
     font-family: system-ui;
     line-height: 1.5;
     word-wrap: break-word;
+    position: relative;
     &::-webkit-scrollbar{
         display: none;
     }
@@ -35,6 +37,24 @@
     50% {
         opacity: 0;
     }
+}
+.equation {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.result-preview{
+    opacity: 0.4;
+    color: rgb(144, 144, 227);
+    transition: all 0.4s ease;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 20px;
+}
+.result-preview.slide-up {
+    opacity: 1;
+    color: white;
+    transform: translateY(-64px);
+    font-size: 25px;
 }
 .clear-history{
     background-color: rgb(46, 46, 46);
@@ -95,8 +115,8 @@
     border-radius: 50%;
     font-size: 25px;
     background-color: rgb(31, 30, 40);
-    width: 4vw;
-    height: 9vh;
+    width: 60px;
+    height: 60px;
     color: rgb(144, 144, 227);
 }
 .rows .clear{
