@@ -1,5 +1,5 @@
 import './App.css'
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { evaluate } from 'mathjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faDivide, faMinus, faPlus, faXmark, faEquals, faClock, faRulerHorizontal, faDeleteLeft} from '@fortawesome/free-solid-svg-icons'
@@ -11,6 +11,7 @@ function App() {
 	const [display, setDisplay] = useState("");                       // State to manage the input and result
 	const [history, setHistory] = useState([]);
 	const [view, setView] = useState('calculator');
+	const [activeField, setActiveField] = useState('from');
 
 	const toggleView = () => {
 		setView((prevView) => (prevView === 'calculator' ? 'scaleConverter' : 'calculator'));
@@ -76,7 +77,20 @@ function App() {
 		} else {
 			setDisplay((prev) => prev + value);              // append any other char (such as an operator) directly to the display
 		}                                                    // append means adding something to the end of an existing value. setDisplay((prev) => prev + value); 1. prev holds the current value of display. 2. value is what the user just pressed (num, operator). 3. prev + value takes the existing display and adds a new input at the end[display=7,user presses . value, display=7.]. 4. setDisplay(...) updates the display state with this new value.                    
-	};                                                       
+	};        
+	
+	
+	const handleArrowKeys = (direction) => {
+		if (direction === "up" && activeField !== "from") {
+			setActiveField("from");
+		} else if (direction === "down" && activeField !== "to") {
+			setActiveField("to");
+		}
+	};
+
+
+	
+
 
 	
 
@@ -144,14 +158,14 @@ function App() {
 								<FontAwesomeIcon icon={faDeleteLeft} onClick={handleDelete}  className='icon'/>
 							</div>
 						</div>
-				        <Keypad handleClick={handleClick} handleClear={handleClear} handleDelete={handleDelete} ScaleConverter={ScaleConverter}/>
+				    <Keypad handleClick={handleClick} handleClear={handleClear} handleDelete={handleDelete} ScaleConverter={ScaleConverter}/>
 					</>
 			    )}
 
 				{/* need to pass handleclear and handledelete to scaleconveter too so that the imported keypad in the scaleconverter could have access to the functions.
 				those two functions are passed to keypad component above for calculator.need to pass them for both components. */}
 				{view === 'scaleConverter' && (
-			        <ScaleConverter toggleView={toggleView} handleClick={handleClick} display={display} handleClear={handleClear} handleDelete={handleDelete}/>
+			    <ScaleConverter toggleView={toggleView} handleClick={handleClick} display={display} handleClear={handleClear} handleDelete={handleDelete} handleArrowKeys={handleArrowKeys} activeField={activeField}/>
 				)}
 
 			</div>
