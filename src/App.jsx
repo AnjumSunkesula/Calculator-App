@@ -215,17 +215,16 @@ function App() {
 			<div className='container'>
 				{view === 'calculator' && (
 					<>
-					  <div className='display'>
-							{showResultOnly ? (
-								<div>{result}</div>
-							) : (
-								<>
-								<div>{display || <span className='cursor'></span> }</div>
-								<div>{result && <span>{result}</span> }</div>								
-								</>
+						<div className="display">
+							{!showResultOnly && (
+								<div className="equation">
+									{display || <span className="cursor"></span>}
+								</div>
 							)}
+							<div className={`result-preview ${showResultOnly ? 'slide-up' : ''}`}>
+								{result}
+							</div>
 						</div>
-
 
 						{history.length > 0 && display === history.join("\n") && (
 							<button onClick={handleClearHistory} className='clear-history'>Clear history</button>
