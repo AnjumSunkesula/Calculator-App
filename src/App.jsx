@@ -89,7 +89,46 @@ function App() {
 	};
 
 
-	
+	useEffect(() => {
+		const handleKeyPress = (event) => {
+			const key = event.key;
+
+			// Digits and decimal
+			if (!isNaN(key) || key === ".") {
+				handleClick(key);
+			}
+
+			// Operators
+			if (key === "+") handleClick("+");
+			if (key === "-") handleClick("-");
+			if (key === "*") handleClick("*"); 
+			if (key === "/") handleClick("÷"); 
+			if (key === "%") handleClick("%");
+
+			// Brackets
+			if (key === "(") handleClick("(");
+			if (key === ")") handleClick(")");
+
+			// Enter and equals
+			if (key === "Enter" || key === "=") handleClick("=");
+
+			// Special keys
+			if (key === "Backspace") handleDelete();
+			if (key === "C" || key === 'c') handleClear();
+
+			if (key === "~") handleClick("+/-"); // just an example key for toggle
+
+			// Arrow keys
+			if (key === "ArrowUp") handleArrowKeys("up");
+			if (key === "ArrowDown") handleArrowKeys("down");
+		};
+
+		window.addEventListener("keydown", handleKeyPress);
+
+		return () => {
+			window.removeEventListener("keydown", handleKeyPress);
+		};
+	}, [handleClick, handleArrowKeys]);
 
 
 	
