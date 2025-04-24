@@ -8,21 +8,11 @@ import Keypad from '../keypad';
 
 
 
-function ScaleConverter ({ toggleView, handleClick, display, handleClear, handleDelete }) {
+function ScaleConverter ({ toggleView, handleClick, display, handleClear, handleDelete, handleArrowKeys, activeField }) {
 
     const [currentCategory, setCurrentCategory] = useState("Length");
     const [fromUnit, setFromUnit] = useState("Inches");
     const [toUnit, setToUnit] = useState("Centimetres");
-    const [activeField, setActiveField] = useState("from");
-
-    
-    const handleArrowKeys = (direction) => {
-        if (direction === "up" && activeField !== "from") {
-            setActiveField("from");
-        } else if (direction === "down" && activeField !== "to") {
-            setActiveField("to");
-        }
-    };
 
 
     // Units and conversion factors
