@@ -2,7 +2,7 @@ import './App.css'
 import React, { useState, useEffect } from "react";
 import { evaluate } from 'mathjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faDivide, faMinus, faPlus, faXmark, faEquals, faClock, faRulerHorizontal, faDeleteLeft} from '@fortawesome/free-solid-svg-icons'
+import {faDivide, faMinus, faPlus, faXmark, faEquals, faClock,  faCalculator, faRulerHorizontal, faDeleteLeft} from '@fortawesome/free-solid-svg-icons'
 import Keypad from './components/keypad';
 import ScaleConverter from './components/ScaleConverter/scaleConverter';
 
@@ -10,6 +10,7 @@ function App() {
 
 	const [display, setDisplay] = useState("");                       // State to manage the input and result
 	const [history, setHistory] = useState([]);
+	const [showHistory, setShowHistory] = useState(false);
 	const [view, setView] = useState('calculator');
 	const [activeField, setActiveField] = useState('from');
 	const [result, setResult] = useState("");
@@ -41,11 +42,12 @@ function App() {
 				setResult(result.toString());
 				setShowResultOnly(true);
 				setDisplay(result.toString());
+				
 
 				setHistory((prev) => [...prev,`${balancedDisplay} = ${result}`]);
 			} catch {
 				setDisplay("Error");
-				setResult('Error')
+				// setResult('Error')
 			}
 		} else if (value === "()") {                                     // Handle parentheses logic
 			const lastChar = display[display.length - 1];
@@ -130,7 +132,7 @@ function App() {
 			if (key === "+") handleClick("+");
 			if (key === "-") handleClick("-");
 			if (key === "*") handleClick("*"); 
-			if (key === "/") handleClick("÷"); 
+			if (key === "/") handleClick("/"); 
 			if (key === "%") handleClick("%");
 
 			// Brackets
@@ -207,10 +209,7 @@ function App() {
   };
 
 
-	// STORING PREVIOUS CALCULATIONS
-	const handleStoreHistory = () => {
-		setDisplay(history.join("\n"));
-	}
+	
 	// CLEARING HISTORY
 	const handleClearHistory = () => {
 		setHistory([]);
@@ -225,22 +224,22 @@ function App() {
 				{view === 'calculator' && (
 					<>
 						<div className="display">
-							{!showResultOnly && (
-								<div className="equation">
-									{display || <span className="cursor"></span>}
-								</div>
-							)}
-							<div className={`result-preview ${showResultOnly ? 'slide-up' : ''}`}>
-								{result}
-							</div>
-						</div>
+  {!showResultOnly && (
+    <div className="equation">
+      {display}
+      <span className="cursor"></span> {/* Cursor always shown after the display */}
+    </div>
+  )}
+  <div className={`result-preview ${showResultOnly ? 'slide-up' : ''}`}>
+    {result}
+  </div>
+</div>
 
-						{history.length > 0 && display === history.join("\n") && (
-							<button onClick={handleClearHistory} className='clear-history'>Clear history</button>
-						)}
+
+						
 						<div className='math-icons'>
 							<div className='jBSwj'>
-								<FontAwesomeIcon icon={faClock} onClick={handleStoreHistory} className='icon'/>
+								<FontAwesomeIcon icon={!showHistory ? faClock : faCalculator} onClick={() => setShowHistory(prev => !prev)} className='icon'/>
 								<FontAwesomeIcon 
 									icon={faRulerHorizontal} 
 									onClick={toggleView} 
@@ -251,7 +250,8 @@ function App() {
 								<FontAwesomeIcon icon={faDeleteLeft} onClick={handleDelete}  className='icon'/>
 							</div>
 						</div>
-				    <Keypad handleClick={handleClick} handleClear={handleClear} handleDelete={handleDelete} ScaleConverter={ScaleConverter}/>
+						
+
 					</>
 			    )}
 
