@@ -188,15 +188,24 @@ function App() {
 	
 	// DELETE CHARACTER BY ONE
 	const handleDelete = () => {
-		if(showResultOnly){
-			setDisplay('');
-			setResult('');
-			showResultOnly(false);
-			// return;
-		}
-		setDisplay((prev) => prev.slice(0, -1));  //removes the last character.-1 cuz it removes the single digit also 
-		liveEvaluate(display.slice(0, -1));
-	}
+    if (showResultOnly) {
+			setResult((prev) => {
+				const updated = prev.slice(0, -1);
+				if (updated === '') {
+					setShowResultOnly(false); // exit result mode when nothing left
+					setDisplay('');            // clear display too
+				}
+				return updated;
+		  });
+    } else {
+			setDisplay((prev) => {
+				const updated = prev.slice(0, -1);
+				liveEvaluate(updated); // live evaluate after deleting
+				return updated;
+			});
+    }
+  };
+
 
 	// STORING PREVIOUS CALCULATIONS
 	const handleStoreHistory = () => {
