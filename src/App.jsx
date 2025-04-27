@@ -224,18 +224,18 @@ function App() {
 				{view === 'calculator' && (
 					<>
 						<div className="display">
-  {!showResultOnly && (
-    <div className="equation">
-      {display}
-      <span className="cursor"></span> {/* Cursor always shown after the display */}
-    </div>
-  )}
-  <div className={`result-preview ${showResultOnly ? 'slide-up' : ''}`}>
-    {result}
-  </div>
-</div>
-
-
+							{!showResultOnly && (
+								<div className="equation">
+									<span className='display-content'>
+										{display}
+									<span className="cursor"></span> {/* Cursor always shown after the display */}
+									</span>
+								</div>
+							)}
+							<div className={`result-preview ${showResultOnly ? 'slide-up' : ''}`}>
+								{result}
+							</div>
+						</div>
 						
 						<div className='math-icons'>
 							<div className='jBSwj'>
@@ -250,8 +250,33 @@ function App() {
 								<FontAwesomeIcon icon={faDeleteLeft} onClick={handleDelete}  className='icon'/>
 							</div>
 						</div>
-						
-
+						{!showHistory ? (
+							<Keypad 
+								handleClick={handleClick} 
+								handleClear={handleClear} 
+								handleDelete={handleDelete} 
+								ScaleConverter={ScaleConverter}
+								handleArrowKeys={handleArrowKeys}
+								activeField={activeField}
+							/>
+						) : (
+							<div className="history-view">
+								{history.length > 0 ? (
+									<>
+										<div className="history-list">
+											{history.map((item, index) => (
+												<div key={index} className="history-item">
+													{item}
+												</div>
+											))}
+										</div>
+										<button onClick={handleClearHistory} className='clear-history'>Clear history</button>
+									</>
+								) : (
+									<div className="no-history">No history available</div>
+								)}
+							</div>
+						)}
 					</>
 			    )}
 
