@@ -5,36 +5,64 @@
     transform: translate(-50%, -50%);
     background-color: black;
     color: #fff;
-    padding: 8px;
+    padding: 7px 8px;
+    width: 304px;
+    height: 547px;
 }
+
 .display {
-    font-size: 20px;
+    font-size: 25px;
     padding: 10px;
     text-align: right;
     margin-bottom: 5px;
     white-space: pre-wrap;
     overflow-y: auto;
     height: 100px;
-    max-width: 240px;
     font-family: system-ui;
-    line-height: 1.5;
+    line-height: normal;
     word-wrap: break-word;
+    position: relative;
     &::-webkit-scrollbar{
         display: none;
     }
+}
+.display-content {
+    display: inline-flex;
+    align-items: center;
 }
 .cursor{
     animation: blink 1s step-end infinite;
     display: inline-block;
     vertical-align: middle;
     height: 25px;
-    width: 1px;
+    width: 1.5px;
     background-color: rgb(144, 144, 227);
 }
+/* .cursor.show {
+    visibility: visible;
+} */
 @keyframes blink {
     50% {
         opacity: 0;
     }
+}
+.equation {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.result-preview{
+    opacity: 0.4;
+    color: rgb(144, 144, 227);
+    transition: all 0.4s ease;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 20px;
+}
+.result-preview.slide-up {
+    opacity: 1;
+    color: rgb(139, 235, 139);
+    transform: translateY(-64px);
+    font-size: 25px;
 }
 .clear-history{
     background-color: rgb(46, 46, 46);
@@ -82,21 +110,21 @@
 .button-wrapper{
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 5px;
     padding-top: 8px;
 }
 .rows{
     display: flex;
     column-gap: 5px;
-    row-gap: 5px;
 }
 .rows button{
     border: none;
     border-radius: 50%;
     font-size: 25px;
     background-color: rgb(31, 30, 40);
-    width: 4vw;
-    height: 9vh;
+    width: 72px;
+    height: 72px;
     color: rgb(144, 144, 227);
 }
 .rows .clear{
@@ -117,3 +145,96 @@ button:disabled {
     color: rgb(75, 75, 78);
     cursor: not-allowed;
 }
+
+
+.history-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+}
+
+.history-list {
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.history-item {
+    background: #222;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.no-history {
+    color: gray;
+    font-size: 18px;
+}
+
+.clear-history {
+    background: #ff5c5c;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.clear-history:hover {
+    opacity: 0.8;
+}
+
+
+@media screen and  (min-width: 375px) {
+    .container{
+        width: 360px;
+    }
+}
+@media screen and (min-width: 425px) {
+    .container{
+        width: 410px;
+    }
+}
+@media screen and (min-width: 768px) {
+    .container{
+        width: 755px;
+    }
+}
+@media screen and (min-width: 1024px) {
+    .container {
+        width: 1010px;
+    }
+}
+@media screen and (min-width: 1440px) {
+    .container{
+        width: 1520px;
+        height: 98%;
+    }
+    .display{
+        height: 125px;
+        font-size: 30px;
+    }
+    .result-preview {
+        font-size: 25px;
+    }
+    .result-preview.slide-up {
+        transform: translateY(-80px);
+        font-size: 30px;
+    }
+    .button-wrapper{
+        gap: 9px;
+    }
+    .rows{
+        column-gap: 9px;
+    }
+    .rows button{
+        font-size: 30px;
+        width: 90px;
+        height: 90px;
+    }
+}
+

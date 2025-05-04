@@ -1,8 +1,8 @@
 import './App.css'
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { evaluate } from 'mathjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faDivide, faMinus, faPlus, faXmark, faEquals, faClock, faRulerHorizontal, faDeleteLeft} from '@fortawesome/free-solid-svg-icons'
+import {faDivide, faMinus, faPlus, faXmark, faEquals, faClock,  faCalculator, faRulerHorizontal, faDeleteLeft} from '@fortawesome/free-solid-svg-icons'
 import Keypad from './components/keypad';
 import ScaleConverter from './components/ScaleConverter/scaleConverter';
 
@@ -10,7 +10,12 @@ function App() {
 
 	const [display, setDisplay] = useState("");                       // State to manage the input and result
 	const [history, setHistory] = useState([]);
+	const [showHistory, setShowHistory] = useState(false);
 	const [view, setView] = useState('calculator');
+	const [activeField, setActiveField] = useState('from');
+	const [result, setResult] = useState("");
+	const [showResultOnly, setShowResultOnly] = useState(false);
+
 
 	const toggleView = () => {
 		setView((prevView) => (prevView === 'calculator' ? 'scaleConverter' : 'calculator'));
@@ -19,7 +24,10 @@ function App() {
 	const handleClick = (value) => {
 		if (React.isValidElement(value)) {                              //checks if the value is a react elemrnt(an icon button)
 			const operator = getIconSymbol(value);                      // getIconSymbol function converts icons into their corresponding operators(+, -, *, /)
-			setDisplay((prev) => prev + operator);                      // Append the operator symbol as string
+			const newDisplay = display + operator;
+			setDisplay(newDisplay);
+		  liveEvaluate(newDisplay);
+		  setShowResultOnly(false);                                  // Append the operator symbol as string
 		} else if (value === "=") {                                     // If the value is "=" (equal sign), calculate the result
 			try {
 				const openCount = (display.match(/\(/g) || []).length;  // number of (
@@ -31,52 +39,127 @@ function App() {
 				}
 
 				const result = evaluate(balancedDisplay);  // Using mathjs instead of eval().evaluating the balanced expression
+				setResult(result.toString());
+				setShowResultOnly(true);
 				setDisplay(result.toString());
+				
 
-				setHistory((prevHistory) => [
-					...prevHistory, 
-					`${balancedDisplay} = ${result}`
-				]);
+				setHistory((prev) => [...prev,`${balancedDisplay} = ${result}`]);
 			} catch {
 				setDisplay("Error");
+				// setResult('Error')
 			}
 		} else if (value === "()") {                                     // Handle parentheses logic
 			const lastChar = display[display.length - 1];
+			let newDisplay = display;
 
 			if (!display || "+-*/(".includes(lastChar)) {                // Append "(" if it's the beginning or after an operator
-				setDisplay((prev) => prev + "(");
+				newDisplay += "(";
 			} else {                                                     // Append ")" if there’s a matching open parenthesis
-				const openCount = (display.match(/\(/g) || []).length;
-				const closeCount = (display.match(/\)/g) || []).length;
-				if (openCount > closeCount) {
-					setDisplay((prev) => prev + ")");
-				} else {
-					setDisplay((prev) => prev + "*(");
-				}
+				const open = (display.match(/\(/g) || []).length;
+				const close = (display.match(/\)/g) || []).length;
+				newDisplay += open > close ? ")" : "*(";
 			}
-        } else if (value === "+/-"){
+			setDisplay(newDisplay);
+		  liveEvaluate(newDisplay);
+		  setShowResultOnly(false);
+    } else if (value === "+/-"){
 			const regex = /(-?\d+(\.\d*)?)$/;                 // This matches the last number, including negative numbers and decimals
 			const match = display.match(regex);
 
 			if (match) {
-			const lastNumber = match[0];	
-			const newNumber = lastNumber.startsWith("-")
-				? lastNumber.slice(1)                         // Remove negative sign
-				: "-" + lastNumber;                           // Add negative sign
-			    setDisplay((prev) => prev.slice(0, -lastNumber.length) + newNumber);
+			  const lastNumber = match[0];	
+			  const toggled = lastNumber.startsWith("-") ? lastNumber.slice(1) : "-" + lastNumber;                        // Remove negative sign                           // Add negative sign
+			  const newDisplay = display.slice(0, -lastNumber.length) + toggled;
+			  setDisplay(newDisplay);
+			  liveEvaluate(newDisplay);
 			}
+			setShowResultOnly(false);
 		} else if (!isNaN(value) || value === '.') {         //checks if the input "value" is a number or a decimal point
 			const lastChar = display[display.length - 1];    // get the last character of the current display
 
-			if (lastChar === ")") {
-				setDisplay((prev) => prev + "*" + value);    //insert a * before adding the number [ (2+3)5 => (2+3)*5 ]
-			} else {
-				setDisplay((prev) => prev + value);          // otherwise, just append the number or . as it is
-			}
+			const newDisplay = lastChar === ")" ? display + "*" + value : display + value;
+			setDisplay(newDisplay);
+			liveEvaluate(newDisplay);
+			setShowResultOnly(false);
 		} else {
-			setDisplay((prev) => prev + value);              // append any other char (such as an operator) directly to the display
-		}                                                    // append means adding something to the end of an existing value. setDisplay((prev) => prev + value); 1. prev holds the current value of display. 2. value is what the user just pressed (num, operator). 3. prev + value takes the existing display and adds a new input at the end[display=7,user presses . value, display=7.]. 4. setDisplay(...) updates the display state with this new value.                    
-	};                                                       
+			const newDisplay = display + value;
+			setDisplay(newDisplay);
+			liveEvaluate(newDisplay);
+			setShowResultOnly(false);
+		}
+	};   
+	
+	
+	const liveEvaluate = (expression) => {
+  // Show preview only if the expression contains at least one operator and ends with a valid number
+  const hasOperator = /[+\-*/]/.test(expression);
+  const endsWithNumber = /\d$/.test(expression);
+
+  if (hasOperator && endsWithNumber) {
+    try {
+      const result = evaluate(expression); // Using mathjs or your eval method
+      setResult(result.toString());
+    } catch {
+      setResult(""); // If expression is invalid, hide the result
+    }
+  } else {
+    setResult(""); // Don't show preview yet
+  }
+};
+
+		
+	
+	const handleArrowKeys = (direction) => {
+		if (direction === "up" && activeField !== "from") {
+			setActiveField("from");
+		} else if (direction === "down" && activeField !== "to") {
+			setActiveField("to");
+		}
+	};
+
+
+	useEffect(() => {
+		const handleKeyPress = (event) => {
+			const key = event.key;
+
+			// Digits and decimal
+			if (!isNaN(key) || key === ".") {
+				handleClick(key);
+			}
+
+			// Operators
+			if (key === "+") handleClick("+");
+			if (key === "-") handleClick("-");
+			if (key === "*") handleClick("*"); 
+			if (key === "/") handleClick("/"); 
+			if (key === "%") handleClick("%");
+
+			// Brackets
+			if (key === "(") handleClick("(");
+			if (key === ")") handleClick(")");
+
+			// Enter and equals
+			if (key === "Enter" || key === "=") handleClick("=");
+
+			// Special keys
+			if (key === "Backspace") handleDelete();
+			if (key === "C" || key === 'c') handleClear();
+
+			if (key === "~") handleClick("+/-"); // just an example key for toggle
+
+			// Arrow keys
+			if (key === "ArrowUp") handleArrowKeys("up");
+			if (key === "ArrowDown") handleArrowKeys("down");
+		};
+
+		window.addEventListener("keydown", handleKeyPress);
+
+		return () => {
+			window.removeEventListener("keydown", handleKeyPress);
+		};
+	}, [handleClick, handleArrowKeys]);
+
 
 	
 
@@ -101,17 +184,32 @@ function App() {
 	// CLEAR THE DISPLAY
 	const handleClear = () => {
 		setDisplay("");
+		setResult('');
+		setShowResultOnly(false);
 	}
 	
 	// DELETE CHARACTER BY ONE
 	const handleDelete = () => {
-		setDisplay((prev) => prev.slice(0, -1));  //removes the last character.-1 cuz it removes the single digit also 
-	}
+    if (showResultOnly) {
+			setResult((prev) => {
+				const updated = prev.slice(0, -1);
+				if (updated === '') {
+					setShowResultOnly(false); // exit result mode when nothing left
+					setDisplay('');            // clear display too
+				}
+				return updated;
+		  });
+    } else {
+			setDisplay((prev) => {
+				const updated = prev.slice(0, -1);
+				liveEvaluate(updated); // live evaluate after deleting
+				return updated;
+			});
+    }
+  };
 
-	// STORING PREVIOUS CALCULATIONS
-	const handleStoreHistory = () => {
-		setDisplay(history.join("\n"));
-	}
+
+	
 	// CLEARING HISTORY
 	const handleClearHistory = () => {
 		setHistory([]);
@@ -125,15 +223,23 @@ function App() {
 			<div className='container'>
 				{view === 'calculator' && (
 					<>
-					    <div className='display'>
-							{display || <span className='cursor'></span>}
+						<div className="display">
+							{!showResultOnly && (
+								<div className="equation">
+									<span className='display-content'>
+										{display}
+									<span className="cursor"></span> {/* Cursor always shown after the display */}
+									</span>
+								</div>
+							)}
+							<div className={`result-preview ${showResultOnly ? 'slide-up' : ''}`}>
+								{result}
+							</div>
 						</div>
-						{history.length > 0 && display === history.join("\n") && (
-							<button onClick={handleClearHistory} className='clear-history'>Clear history</button>
-						)}
+						
 						<div className='math-icons'>
 							<div className='jBSwj'>
-								<FontAwesomeIcon icon={faClock} onClick={handleStoreHistory} className='icon'/>
+								<FontAwesomeIcon icon={!showHistory ? faClock : faCalculator} onClick={() => setShowHistory(prev => !prev)} className='icon'/>
 								<FontAwesomeIcon 
 									icon={faRulerHorizontal} 
 									onClick={toggleView} 
@@ -144,14 +250,40 @@ function App() {
 								<FontAwesomeIcon icon={faDeleteLeft} onClick={handleDelete}  className='icon'/>
 							</div>
 						</div>
-				        <Keypad handleClick={handleClick} handleClear={handleClear} handleDelete={handleDelete} ScaleConverter={ScaleConverter}/>
+						{!showHistory ? (
+							<Keypad 
+								handleClick={handleClick} 
+								handleClear={handleClear} 
+								handleDelete={handleDelete} 
+								ScaleConverter={ScaleConverter}
+								handleArrowKeys={handleArrowKeys}
+								activeField={activeField}
+							/>
+						) : (
+							<div className="history-view">
+								{history.length > 0 ? (
+									<>
+										<div className="history-list">
+											{history.map((item, index) => (
+												<div key={index} className="history-item">
+													{item}
+												</div>
+											))}
+										</div>
+										<button onClick={handleClearHistory} className='clear-history'>Clear history</button>
+									</>
+								) : (
+									<div className="no-history">No history available</div>
+								)}
+							</div>
+						)}
 					</>
 			    )}
 
 				{/* need to pass handleclear and handledelete to scaleconveter too so that the imported keypad in the scaleconverter could have access to the functions.
 				those two functions are passed to keypad component above for calculator.need to pass them for both components. */}
 				{view === 'scaleConverter' && (
-			        <ScaleConverter toggleView={toggleView} handleClick={handleClick} display={display} handleClear={handleClear} handleDelete={handleDelete}/>
+			    <ScaleConverter toggleView={toggleView} handleClick={handleClick} display={display} handleClear={handleClear} handleDelete={handleDelete} handleArrowKeys={handleArrowKeys} activeField={activeField}/>
 				)}
 
 			</div>
