@@ -1,7 +1,7 @@
 import './scaleConverter.css';
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Keypad from '../keypad';
 
 
@@ -134,6 +134,38 @@ function ScaleConverter ({ toggleView, handleClick, display, handleClear, handle
         return (numValue * conversionFactor).toFixed(2);
     };
 
+    // ARROW SLIDER
+    const scrollRef = useRef(null);
+    const [atStart, setAtStart] = useState(true);
+    const [atEnd, setAtEnd] = useState(false);
+
+    useEffect(() => {
+    const handleScroll = () => {
+        const scroller = scrollRef.current;                                    //get the current DOM element from the ref
+        setAtStart(scroller.scrollLeft === 0);                                 //check if we're at side(left)
+        setAtEnd(scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth);  //check if we've scrolled to the end
+    };
+
+    const scroller = scrollRef.current;                                            //access the scrollable element
+    if (scroller) {
+        scroller.addEventListener("scroll", handleScroll);
+        handleScroll();                                                            //immediately run to set the initial scroll state
+    }
+
+    return () => {
+        if (scroller) scroller.removeEventListener("scroll", handleScroll);         // Cleanup function: remove the scroll listener when the component unmounts
+    };
+    }, []);
+
+
+    const scrollLeft = () => {
+        scrollRef.current.scrollBy({ left: -200, behavior: 'smooth' });              //scrollBy: built-in js DOM method
+    };
+    const scrollRight = () => {
+        scrollRef.current.scrollBy({ left: 200, behavior: 'smooth' });                //scrollref.current is literally HTML <div>, so we can call DOM methods like scrollBy() directly.its like"hey browser,scroll this div sideways by 200px"
+    };
+
+
 
     return(
         <>
@@ -148,21 +180,26 @@ function ScaleConverter ({ toggleView, handleClick, display, handleClear, handle
                     <div className='heading'>Unit Converter</div>
                 </div>
 
-                <div className="categories">
-                    {Object.keys(categories).map((category) => (
+                <div className="category-scroll-container">
+                    <button className={`scroll-arrow left ${atStart ? 'hidden' : ''}`} onClick={scrollLeft}> <FontAwesomeIcon icon={faChevronLeft}/> </button>
+                    <div className="categories" ref={scrollRef}>
+                        {Object.keys(categories).map((category) => (
                         <button
                             key={category}
                             onClick={() => {
-                                setCurrentCategory(category);
-                                setFromUnit(categories[category].units[0]);
-                                setToUnit(categories[category].units[1]);
+                            setCurrentCategory(category);
+                            setFromUnit(categories[category].units[0]);
+                            setToUnit(categories[category].units[1]);
                             }}
                             className={currentCategory === category ? "active" : ""}
                         >
                             {category}
                         </button>
-                    ))}
+                        ))}
+                    </div>
+                    <button className={`scroll-arrow right ${atEnd ? 'hidden' : ''}`} onClick={scrollRight}><FontAwesomeIcon icon={faChevronRight}/></button>
                 </div>
+
 
                 <div className="conversion-display">
                     <div className="from-unit">
