@@ -1,7 +1,7 @@
 .scale-converter{
     display: grid;
     gap: 5px;
-    max-width: 260px;
+    width: 100%;
 }
 .header{
     display: flex;
@@ -34,36 +34,57 @@
     padding: 5px;
 }
 .conversion-display{
-    display: grid;
+    display: inherit;
     gap: 5px;
+    width: 100%;
 }
 .from-unit, .to-unit{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     height: 12vh;
     border-bottom: 1px solid rgb(55, 53, 53);
     position: relative;
 }
 .ip-value, .op-value{
     position: absolute;
-    top: 70%;
-    transform: translateY(-50%);
+    bottom: 0;
+    right: 0;
     font-family: sans-serif;
     color: rgb(158, 158, 197);
     white-space: nowrap;
-    right: 0;
-}
-.ip-value{
-    left: 233px;
-}
-.op-value{
-    left: 207px;
+    padding-right: 5px;
 }
 .from-unit select, .to-unit select{
     color: rgb(158, 158, 197);
     background-color: transparent;
     border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-left: 5px;
+    width: 200px;
 }
 .from-unit select:focus,.to-unit select:focus{
     outline: none;
+}
+
+@media screen and (min-width : 768px) {
+    .categories{
+        justify-content: center;
+    }
+    .categories button{
+        font-size: 20px;
+    }
+    .from-unit select, .to-unit select{
+        font-size: 17px;
+    }
+    .ip-value, .op-value{
+        font-size: 18px;
+    }
+    .header{
+        font-size: 22px;
+    }
 }
 
 
