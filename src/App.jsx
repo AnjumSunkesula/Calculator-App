@@ -19,6 +19,8 @@ function App() {
 
 	const toggleView = () => {
 		setView((prevView) => (prevView === 'calculator' ? 'scaleConverter' : 'calculator'));
+		setDisplay('');
+		setResult('');
 	};
 	
 	const handleClick = (value) => {
