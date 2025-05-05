@@ -98,6 +98,17 @@ function App() {
 		} else if (!isNaN(value) || value === '.') {         //checks if the input "value" is a number or a decimal point
 			const lastChar = display[display.length - 1];    // get the last character of the current display
 
+			const parts = display.split(/[\+\-\*\/\(\)]/); // split by operators
+			const currentNumber = parts[parts.length - 1];
+			
+			if (value === '0' && /^0+$/.test(currentNumber) && !currentNumber.includes('.')) {    // Prevent multiple leading zeroes unless followed by a decimal point
+				return; // block more than one leading zero
+			}
+			
+			if (value === '.' && currentNumber.includes('.')) {         // Prevent multiple decimals in the same number
+				return;
+			}
+
 			const newDisplay = lastChar === ")" ? display + "*" + value : display + value;
 			setDisplay(newDisplay);
 			liveEvaluate(newDisplay);
