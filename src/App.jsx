@@ -19,6 +19,8 @@ function App() {
 
 	const toggleView = () => {
 		setView((prevView) => (prevView === 'calculator' ? 'scaleConverter' : 'calculator'));
+		setDisplay('');
+		setResult('');
 	};
 	
 	const handleClick = (value) => {
@@ -28,6 +30,7 @@ function App() {
 			setDisplay(newDisplay);
 		  liveEvaluate(newDisplay);
 		  setShowResultOnly(false);                                  // Append the operator symbol as string
+
 		} else if (value === "=") {                                     // If the value is "=" (equal sign), calculate the result
 			try {
 				const openCount = (display.match(/\(/g) || []).length;  // number of (
@@ -49,6 +52,7 @@ function App() {
 				setDisplay("Error");
 				// setResult('Error')
 			}
+			
 		} else if (value === "()") {                                     // Handle parentheses logic
 			const lastChar = display[display.length - 1];
 			let newDisplay = display;
@@ -63,6 +67,7 @@ function App() {
 			setDisplay(newDisplay);
 		  liveEvaluate(newDisplay);
 		  setShowResultOnly(false);
+
     } else if (value === "+/-"){
 			const regex = /(-?\d+(\.\d*)?)$/;                 // This matches the last number, including negative numbers and decimals
 			const match = display.match(regex);
@@ -75,13 +80,40 @@ function App() {
 			  liveEvaluate(newDisplay);
 			}
 			setShowResultOnly(false);
+
+		} else if (value === '%') {
+			
+			const lastChar = display[display.length - 1];
+			let newDisplay = display + '%';
+
+			// If last character is a digit or closing parenthesis, insert * after %
+			if (/\d|\)/.test(lastChar)) {
+				newDisplay += "*";
+			}
+
+			setDisplay(newDisplay);
+			liveEvaluate(newDisplay);
+			setShowResultOnly(false);
+			
 		} else if (!isNaN(value) || value === '.') {         //checks if the input "value" is a number or a decimal point
 			const lastChar = display[display.length - 1];    // get the last character of the current display
+
+			const parts = display.split(/[\+\-\*\/\(\)]/); // split by operators
+			const currentNumber = parts[parts.length - 1];
+			
+			if (value === '0' && /^0+$/.test(currentNumber) && !currentNumber.includes('.')) {    // Prevent multiple leading zeroes unless followed by a decimal point
+				return; // block more than one leading zero
+			}
+			
+			if (value === '.' && currentNumber.includes('.')) {         // Prevent multiple decimals in the same number
+				return;
+			}
 
 			const newDisplay = lastChar === ")" ? display + "*" + value : display + value;
 			setDisplay(newDisplay);
 			liveEvaluate(newDisplay);
 			setShowResultOnly(false);
+
 		} else {
 			const newDisplay = display + value;
 			setDisplay(newDisplay);
@@ -92,7 +124,7 @@ function App() {
 	
 	
 	const liveEvaluate = (expression) => {
-  // Show preview only if the expression contains at least one operator and ends with a valid number
+  // Show preview only if the expression contains at least one number and ends with a valid operator
   const hasOperator = /[+\-*/]/.test(expression);
   const endsWithNumber = /\d$/.test(expression);
 

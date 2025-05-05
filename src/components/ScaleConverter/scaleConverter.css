@@ -12,12 +12,29 @@
     color: rgb(176, 176, 228);
     letter-spacing: .5px;
 }
+.category-scroll-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgb(55, 53, 53);
+}
+.scroll-arrow {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: rgb(158, 158, 197);
+    padding: 0 2px;
+    cursor: pointer;
+}
+.scroll-arrow.hidden {
+    visibility: hidden;
+}
 .categories{
     display: flex;
     overflow: hidden;
     overflow-x: scroll;
     gap: 5px;
-    border-bottom: 1px solid rgb(55, 53, 53);
     &::-webkit-scrollbar {
         display: none;
     }
@@ -42,7 +59,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 12vh;
+    height: 13vh;
     border-bottom: 1px solid rgb(55, 53, 53);
     position: relative;
 }
@@ -63,20 +80,20 @@
     top: 0;
     left: 0;
     padding-left: 5px;
-    width: 200px;
 }
 .from-unit select:focus,.to-unit select:focus{
     outline: none;
 }
 
 @media screen and (min-width : 768px) {
-    .categories{
+    .category-scroll-container{
         justify-content: center;
     }
     .categories button{
         font-size: 20px;
     }
     .from-unit select, .to-unit select{
+        width: 200px;
         font-size: 17px;
     }
     .ip-value, .op-value{
@@ -85,6 +102,10 @@
     .header{
         font-size: 22px;
     }
+    .scroll-arrow{
+        display: none;
+    }
 }
+
 
 
