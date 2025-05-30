@@ -22,7 +22,9 @@ body{
     margin-bottom: 5px;
     white-space: pre-wrap;
     overflow-y: auto;
-    height: 100px;
+    height: auto;
+    min-height: 100px;
+    max-height: 200px;
     width: 100%;
     font-family: system-ui;
     line-height: normal;
@@ -105,7 +107,7 @@ body{
     align-items: center;
     gap: 5px;
     padding-top: 8px;
-    position: absolute;
+    position: static;
     bottom: 0;
 }
 .rows{
