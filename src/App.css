@@ -8,8 +8,7 @@ body{
     color: #fff;
     padding: 7px 8px;
     width: 304px;
-    height: auto;
-    min-height: 100svh;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     justify-self: center;
@@ -23,9 +22,7 @@ body{
     margin-bottom: 5px;
     white-space: pre-wrap;
     overflow-y: auto;
-    height: auto;
-    min-height: 100px;
-    max-height: 200px;
+    height: 100px;
     width: 100%;
     font-family: system-ui;
     line-height: normal;
@@ -108,7 +105,7 @@ body{
     align-items: center;
     gap: 5px;
     padding-top: 8px;
-    position: static;
+    position: absolute;
     bottom: 0;
 }
 .rows{
