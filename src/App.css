@@ -1,19 +1,20 @@
 body{
     background-color: black;
+    margin: 0;
 }
-
 .container{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
     background-color: black;
     color: #fff;
     padding: 7px 8px;
     width: 304px;
-    height: 547px;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
 }
-
+/* DISPLAY */
 .display {
     font-size: 25px;
     padding: 10px;
@@ -22,6 +23,7 @@ body{
     white-space: pre-wrap;
     overflow-y: auto;
     height: 100px;
+    width: 100%;
     font-family: system-ui;
     line-height: normal;
     word-wrap: break-word;
@@ -68,29 +70,14 @@ body{
     transform: translateY(-64px);
     font-size: 25px;
 }
-.clear-history{
-    background-color: rgb(46, 46, 46);
-    color: #fff;
-    border: none;
-    border-radius: 15px;
-    font-family: "Poppins";
-    font-weight: 400;
-    display: flex;
-    justify-self: flex-end;
-    padding: 5px 25px;
-}
-.clear-history:hover{
-    cursor: pointer;
-    background: #fff;
-    color: black;
-    font-weight: 500;
-}
+/* ICONS */
 .math-icons{
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid grey;
     padding: 5px 0px;
+    width: 100%;
 }
 .jBSwj{
     display: flex;
@@ -111,12 +98,15 @@ body{
     font-size: 12px;
     border-radius: 5px;
 }
+/* BUTTONS */
 .button-wrapper{
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 5px;
     padding-top: 8px;
+    position: absolute;
+    bottom: 0;
 }
 .rows{
     display: flex;
@@ -127,8 +117,8 @@ body{
     border-radius: 50%;
     font-size: 25px;
     background-color: rgb(31, 30, 40);
-    width: 72px;
-    height: 72px;
+    width: 74px;
+    height: 74px;
     color: rgb(144, 144, 227);
 }
 .rows .clear{
@@ -150,7 +140,7 @@ button:disabled {
     cursor: not-allowed;
 }
 
-
+/* HISTORY */
 .history-view {
     display: flex;
     flex-direction: column;
@@ -158,13 +148,11 @@ button:disabled {
     padding: 10px;
     gap: 10px;
 }
-
 .history-list {
     width: 100%;
     max-height: 300px;
     overflow-y: auto;
 }
-
 .history-item {
     background: #222;
     padding: 10px;
@@ -173,12 +161,10 @@ button:disabled {
     text-align: center;
     font-size: 18px;
 }
-
 .no-history {
     color: gray;
     font-size: 18px;
 }
-
 .clear-history {
     background: #ff5c5c;
     border: none;
@@ -186,8 +172,9 @@ button:disabled {
     color: white;
     border-radius: 5px;
     cursor: pointer;
+    font-family: "Poppins";
+    font-weight: 400;
 }
-
 .clear-history:hover {
     opacity: 0.8;
 }
@@ -195,28 +182,28 @@ button:disabled {
 
 @media screen and  (min-width: 375px) {
     .container{
-        width: 360px;
+        width: 355px;
     }
 }
 @media screen and (min-width: 425px) {
     .container{
-        width: 410px;
+        width: 406px;
     }
 }
 @media screen and (min-width: 768px) {
     .container{
-        width: 755px;
+        width: 747px;
     }
 }
 @media screen and (min-width: 1024px) {
     .container {
-        width: 1010px;
+        width: 1005px;
     }
 }
 @media screen and (min-width: 1440px) {
     .container{
-        width: 1520px;
-        height: 98%;
+        width: 1516px;
+        height: 95dvh;
     }
     .display{
         height: 125px;
@@ -238,7 +225,7 @@ button:disabled {
     .rows button{
         font-size: 30px;
         width: 90px;
-        height: 90px;
+        height: 88px;
     }
 }
 
