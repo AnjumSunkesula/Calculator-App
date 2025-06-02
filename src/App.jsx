@@ -25,8 +25,19 @@ function App() {
 	
 	const handleClick = (value) => {
 		if (React.isValidElement(value)) {                              //checks if the value is a react elemrnt(an icon button)
-			const operator = getIconSymbol(value);                      // getIconSymbol function converts icons into their corresponding operators(+, -, *, /)
-			const newDisplay = display + operator;
+			const operator = getIconSymbol(value);
+			const lastChar = display[display.length - 1];
+
+			let newDisplay = display;
+
+			if ("+-*/".includes(lastChar)) {
+					// If last character is an operator, replace it
+					newDisplay = display.slice(0, -1) + operator;
+			} else {
+					// Otherwise, append the new operator
+					newDisplay += operator;
+			}
+
 			setDisplay(newDisplay);
 		  liveEvaluate(newDisplay);
 		  setShowResultOnly(false);                                  // Append the operator symbol as string
@@ -58,6 +69,7 @@ function App() {
 			let newDisplay = display;
 
 			if (!display || "+-*/(".includes(lastChar)) {                // Append "(" if it's the beginning or after an operator
+
 				newDisplay += "(";
 			} else {                                                     // Append ")" if there’s a matching open parenthesis
 				const open = (display.match(/\(/g) || []).length;
@@ -84,12 +96,12 @@ function App() {
 		} else if (value === '%') {
 			
 			const lastChar = display[display.length - 1];
-			let newDisplay = display + '%';
 
-			// If last character is a digit or closing parenthesis, insert * after %
-			if (/\d|\)/.test(lastChar)) {
-				newDisplay += "*";
+			if(lastChar === '%' ||  "+-*/".includes(lastChar) || !lastChar) {
+				return;
 			}
+
+			let newDisplay = display + '%';
 
 			setDisplay(newDisplay);
 			liveEvaluate(newDisplay);
@@ -97,8 +109,14 @@ function App() {
 			
 		} else if (!isNaN(value) || value === '.') {         //checks if the input "value" is a number or a decimal point
 			const lastChar = display[display.length - 1];    // get the last character of the current display
+      let newDisplay = display;
 
-			const parts = display.split(/[\+\-\*\/\(\)]/); // split by operators
+			// If previous char is %, insert * before adding number or decimal
+			if (lastChar === '%') {
+        newDisplay += '*';
+      }
+
+			const parts = newDisplay.split(/[\+\-\*\/\(\)]/); // split by operators
 			const currentNumber = parts[parts.length - 1];
 			
 			if (value === '0' && /^0+$/.test(currentNumber) && !currentNumber.includes('.')) {    // Prevent multiple leading zeroes unless followed by a decimal point
@@ -109,7 +127,8 @@ function App() {
 				return;
 			}
 
-			const newDisplay = lastChar === ")" ? display + "*" + value : display + value;
+			newDisplay += value;
+
 			setDisplay(newDisplay);
 			liveEvaluate(newDisplay);
 			setShowResultOnly(false);
@@ -121,6 +140,117 @@ function App() {
 			setShowResultOnly(false);
 		}
 	};   
+
+	// const handleClick = (value) => {
+	// 	if (React.isValidElement(value)) {
+	// 		const operator = getIconSymbol(value);
+	// 		const lastChar = display[display.length - 1];
+	
+	// 		let newDisplay = display;
+	
+	// 		if (!display) {
+	// 			return; // Prevent starting with an operator
+	// 		}
+	
+	// 		if ("+-*/".includes(lastChar)) {
+	// 			// Replace last operator with new one
+	// 			newDisplay = display.slice(0, -1) + operator;
+	// 		} else {
+	// 			// Append the operator
+	// 			newDisplay += operator;
+	// 		}
+	
+	// 		setDisplay(newDisplay);
+	// 		liveEvaluate(newDisplay);
+	// 		setShowResultOnly(false);
+	
+	// 	} else if (value === "=") {
+	// 		try {
+	// 			const openCount = (display.match(/\(/g) || []).length;
+	// 			const closeCount = (display.match(/\)/g) || []).length;
+	// 			let balancedDisplay = display;
+	
+	// 			if (openCount > closeCount) {
+	// 				balancedDisplay += ")".repeat(openCount - closeCount);
+	// 			}
+	
+	// 			const result = evaluate(balancedDisplay);
+	// 			setResult(result.toString());
+	// 			setShowResultOnly(true);
+	// 			setDisplay(result.toString());
+	// 			setHistory((prev) => [...prev, `${balancedDisplay} = ${result}`]);
+	// 		} catch {
+	// 			setDisplay("Error");
+	// 		}
+	
+	// 	} else if (value === "()") {
+	// 		const lastChar = display[display.length - 1];
+	// 		let newDisplay = display;
+	
+	// 		if (!display || "+-*/(".includes(lastChar)) {
+	// 			newDisplay += "(";
+	// 		} else {
+	// 			const open = (display.match(/\(/g) || []).length;
+	// 			const close = (display.match(/\)/g) || []).length;
+	// 			newDisplay += open > close ? ")" : "*(";
+	// 		}
+	
+	// 		setDisplay(newDisplay);
+	// 		liveEvaluate(newDisplay);
+	// 		setShowResultOnly(false);
+	
+	// 	} else if (value === "+/-") {
+	// 		const regex = /(-?\d+(\.\d*)?)$/;
+	// 		const match = display.match(regex);
+	
+	// 		if (match) {
+	// 			const lastNumber = match[0];
+	// 			const toggled = lastNumber.startsWith("-") ? lastNumber.slice(1) : "-" + lastNumber;
+	// 			const newDisplay = display.slice(0, -lastNumber.length) + toggled;
+	
+	// 			setDisplay(newDisplay);
+	// 			liveEvaluate(newDisplay);
+	// 		}
+	// 		setShowResultOnly(false);
+	
+	// 	} else if (value === "%") {
+	// 		const lastChar = display[display.length - 1];
+	// 		let newDisplay = display + "%";
+	
+	// 		if (/\d|\)/.test(lastChar)) {
+	// 			newDisplay += "*";
+	// 		}
+	
+	// 		setDisplay(newDisplay);
+	// 		liveEvaluate(newDisplay);
+	// 		setShowResultOnly(false);
+	
+	// 	} else if (!isNaN(value) || value === ".") {
+	// 		const lastChar = display[display.length - 1];
+	// 		const parts = display.split(/[\+\-\*\/\(\)]/);
+	// 		const currentNumber = parts[parts.length - 1];
+	
+	// 		if (value === "0" && /^0+$/.test(currentNumber) && !currentNumber.includes(".")) {
+	// 			return;
+	// 		}
+	
+	// 		if (value === "." && currentNumber.includes(".")) {
+	// 			return;
+	// 		}
+	
+	// 		const newDisplay = lastChar === ")" ? display + "*" + value : display + value;
+	// 		setDisplay(newDisplay);
+	// 		liveEvaluate(newDisplay);
+	// 		setShowResultOnly(false);
+	
+	// 	} else {
+	// 		const newDisplay = display + value;
+	// 		setDisplay(newDisplay);
+	// 		liveEvaluate(newDisplay);
+	// 		setShowResultOnly(false);
+	// 	}
+	// };
+	
 	
 	
 	const liveEvaluate = (expression) => {
@@ -196,6 +326,7 @@ function App() {
 	
 
 	const getIconSymbol = (icon) => {
+		console.log("Icon clicked:", icon.props.icon);
 		switch (icon.props.icon) {
 			case faPlus:
 				return "+";
@@ -211,6 +342,7 @@ function App() {
 				return ""; // Return empty string if no match
 		}
 	};
+
 
  
 	// CLEAR THE DISPLAY
