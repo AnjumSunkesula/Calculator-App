@@ -13,7 +13,7 @@ function Keypad ({ handleClick, handleClear, ScaleConverter, handleDelete, handl
                     {ScaleConverter && <button className='clear' onClick={handleClear}>C</button>}
                     {ScaleConverter && <button className='operator' onClick={() => handleClick("()")}>( )</button>}
                     {ScaleConverter && <button className='operator' onClick={() => handleClick("%")}>%</button>}
-                    {ScaleConverter && <button className='operator' onClick={() => handleClick("/")}><FontAwesomeIcon icon={faDivide}/></button>}
+                    {ScaleConverter && <button className='operator' onClick={() => handleClick(<FontAwesomeIcon icon={faDivide}/>)}><FontAwesomeIcon icon={faDivide}/></button>}
                 </div>
                 <div className='rows'>
                     {["7", "8", "9", !ScaleConverter ? <FontAwesomeIcon icon={faDeleteLeft} onClick={handleDelete}/> : <FontAwesomeIcon icon={faXmark}/>].map((item, index) => (
@@ -33,8 +33,8 @@ function Keypad ({ handleClick, handleClear, ScaleConverter, handleDelete, handl
                     {!ScaleConverter ? (
                         <button className="clear" onClick={handleClear}>C</button>
                     ) : (
-                        <button className="operator">
-                            <FontAwesomeIcon icon={faMinus} onClick={() => handleClick("-")} />
+                        <button className="operator" onClick={() => handleClick(<FontAwesomeIcon icon={faMinus}/>)}>
+                            <FontAwesomeIcon icon={faMinus}  />
                         </button>
                     )}
                 </div>

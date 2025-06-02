@@ -3,16 +3,15 @@ body{
     margin: 0;
 }
 .container{
-    position: relative;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: black;
     color: #fff;
     padding: 7px 8px;
     width: 304px;
     height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    justify-self: center;
-    align-items: center;
 }
 /* DISPLAY */
 .display {
@@ -105,8 +104,6 @@ body{
     align-items: center;
     gap: 5px;
     padding-top: 8px;
-    position: absolute;
-    bottom: 0;
 }
 .rows{
     display: flex;
@@ -202,7 +199,7 @@ button:disabled {
 }
 @media screen and (min-width: 1440px) {
     .container{
-        width: 1516px;
+        width: 1496px;
         height: 95dvh;
     }
     .display{

@@ -2,8 +2,6 @@
     display: grid;
     gap: 5px;
     width: 100%;
-    position: absolute;
-    top: 0;
 }
 .header{
     display: flex;
