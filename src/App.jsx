@@ -191,7 +191,7 @@ function App() {
 	const showMessage = (msg) => {
 		setToastMessage(msg);
 		setShowToast(true);
-		setTimeout(() => setShowToast(false), 1000);
+		setTimeout(() => setShowToast(false), 2000);
 	};
 	
 	
@@ -248,7 +248,6 @@ function App() {
 	
 
 	const getIconSymbol = (icon) => {
-		console.log("Icon clicked:", icon.props.icon);
 		switch (icon.props.icon) {
 			case faPlus:
 				return "+";
