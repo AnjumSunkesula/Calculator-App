@@ -15,6 +15,9 @@ function App() {
 	const [activeField, setActiveField] = useState('from');
 	const [result, setResult] = useState("");
 	const [showResultOnly, setShowResultOnly] = useState(false);
+	const [toastMessage, setToastMessage] = useState("");
+  const [showToast, setShowToast] = useState(false);
+
 
 
 	const toggleView = () => {
@@ -31,6 +34,7 @@ function App() {
 			let newDisplay = display;
 
 			if (display === '') {
+				showMessage("Invalid format used");
 				return; //block starting with any operator
 			}
 
@@ -52,6 +56,7 @@ function App() {
 			let newDisplay = display;
 	
 			if (display === '') {
+				showMessage("Invalid format used");
 				return; // Block starting with any operator
 			}
 	
@@ -119,6 +124,7 @@ function App() {
 			const lastChar = display[display.length - 1];
 
 			if (lastChar === '%' ||  "+-*/".includes(lastChar) || !lastChar) {
+				showMessage("Invalid format used");
 				return;
 			}
 
@@ -182,6 +188,12 @@ function App() {
 	};
 
 		
+	const showMessage = (msg) => {
+		setToastMessage(msg);
+		setShowToast(true);
+		setTimeout(() => setShowToast(false), 1000);
+	};
+	
 	
 	const handleArrowKeys = (direction) => {
 		if (direction === "up" && activeField !== "from") {
@@ -282,16 +294,12 @@ function App() {
     }
   };
 
-
-	
 	// CLEARING HISTORY
 	const handleClearHistory = () => {
 		setHistory([]);
 		setDisplay("");
 	}
 
-    
-	
 	return(
 		<>
 			<div className='container'>
@@ -324,36 +332,42 @@ function App() {
 								<FontAwesomeIcon icon={faDeleteLeft} onClick={handleDelete}  className='icon'/>
 							</div>
 						</div>
-						{!showHistory ? (
-							<Keypad 
-								handleClick={handleClick} 
-								handleClear={handleClear} 
-								handleDelete={handleDelete} 
-								ScaleConverter={ScaleConverter}
-								handleArrowKeys={handleArrowKeys}
-								activeField={activeField}
-							/>
-						) : (
-							<div className="history-view">
-								{history.length > 0 ? (
-									<>
-										<div className="history-list">
-											{history.map((item, index) => (
-												<div key={index} className="history-item">
-													{item}
-												</div>
-											))}
-										</div>
-										<button onClick={handleClearHistory} className='clear-history'>Clear history</button>
-									</>
-								) : (
-									<div className="no-history">No history available</div>
-								)}
-							</div>
-						)}
-					</>
-			    )}
 
+						<div className='keypad-wrapper' style={{ position: 'relative' }}>
+					    {showToast && <div className="toast-message">{toastMessage}</div>}
+							{!showHistory ? (
+								<Keypad 
+									handleClick={handleClick} 
+									handleClear={handleClear} 
+									handleDelete={handleDelete} 
+									ScaleConverter={ScaleConverter}
+									handleArrowKeys={handleArrowKeys}
+									activeField={activeField}
+									
+								/>
+							) : (
+								<div className="history-view">
+									{history.length > 0 ? (
+										<>
+											<div className="history-list">
+												{history.map((item, index) => (
+													<div key={index} className="history-item">
+														{item}
+													</div>
+												))}
+											</div>
+											<button onClick={handleClearHistory} className='clear-history'>Clear history</button>
+										</>
+									) : (
+										<div className="no-history">No history available</div>
+									)}
+								</div>
+							)}
+						</div>
+					</>
+			  )}
+
+         
 				{/* need to pass handleclear and handledelete to scaleconveter too so that the imported keypad in the scaleconverter could have access to the functions.
 				those two functions are passed to keypad component above for calculator.need to pass them for both components. */}
 				{view === 'scaleConverter' && (
