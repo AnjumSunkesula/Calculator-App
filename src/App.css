@@ -69,6 +69,33 @@ body{
     transform: translateY(-64px);
     font-size: 25px;
 }
+.toast-message {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgb(62, 60, 60);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 25px;
+    font-size: 14px;
+    z-index: 1000;
+    font-family: system-ui;
+    animation: fadeOut 2s ease-in-out forwards;
+}
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
 /* ICONS */
 .math-icons{
     display: flex;
