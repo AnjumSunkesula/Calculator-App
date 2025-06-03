@@ -26,28 +26,52 @@ function App() {
 	const handleClick = (value) => {
 		if (React.isValidElement(value)) {                              //checks if the value is a react elemrnt(an icon button)
 			const operator = getIconSymbol(value);
-			const lastChar = display[display.length - 1];
+			const lastChar = display[display.length - 1] || '';
 
 			let newDisplay = display;
 
+			if (display === '') {
+				return; //block starting with any operator
+			}
+
 			if ("+-*/".includes(lastChar)) {
-					// If last character is an operator, replace it
-					newDisplay = display.slice(0, -1) + operator;
-			} else {
-					// Otherwise, append the new operator
-					newDisplay += operator;
+				// If last character is an operator, replace it
+				newDisplay = display.slice(0, -1) + operator;
+			}  else {
+				// Otherwise, append the new operator
+				newDisplay += operator;
 			}
 
 			setDisplay(newDisplay);
 		  liveEvaluate(newDisplay);
 		  setShowResultOnly(false);                                  // Append the operator symbol as string
 
+		} else if ("+-*/".includes(value)) {
+			// Handle keyboard input for operators
+			const lastChar = display[display.length - 1] || '';
+			let newDisplay = display;
+	
+			if (display === '') {
+				return; // Block starting with any operator
+			}
+	
+			if ("+-*/".includes(lastChar)) {
+				newDisplay = display.slice(0, -1) + value; // Replace last operator
+			} else {
+				newDisplay += value;
+			}
+	
+			setDisplay(newDisplay);
+			liveEvaluate(newDisplay);
+			setShowResultOnly(false);
+	
 		} else if (value === "=") {                                     // If the value is "=" (equal sign), calculate the result
 			try {
 				const openCount = (display.match(/\(/g) || []).length;  // number of (
 				const closeCount = (display.match(/\)/g) || []).length; // number of )
 
 				let balancedDisplay = display;                             // store the expression in a new variable for processing
+
 				if (openCount > closeCount) {                              // += : In JavaScript, strings are immutable, meaning you cannot change a part of an existing string.Instead, you create a new string by adding (concatenating) characters to the existing one.with just = it would be error.
 					balancedDisplay += ")".repeat(openCount - closeCount); // opencount-closecount: tells us how many ) to add.adds missing closing parantheses
 				}
@@ -56,8 +80,6 @@ function App() {
 				setResult(result.toString());
 				setShowResultOnly(true);
 				setDisplay(result.toString());
-				
-
 				setHistory((prev) => [...prev,`${balancedDisplay} = ${result}`]);
 			} catch {
 				setDisplay("Error");
@@ -69,7 +91,6 @@ function App() {
 			let newDisplay = display;
 
 			if (!display || "+-*/(".includes(lastChar)) {                // Append "(" if it's the beginning or after an operator
-
 				newDisplay += "(";
 			} else {                                                     // Append ")" if there’s a matching open parenthesis
 				const open = (display.match(/\(/g) || []).length;
@@ -97,7 +118,7 @@ function App() {
 			
 			const lastChar = display[display.length - 1];
 
-			if(lastChar === '%' ||  "+-*/".includes(lastChar) || !lastChar) {
+			if (lastChar === '%' ||  "+-*/".includes(lastChar) || !lastChar) {
 				return;
 			}
 
@@ -141,134 +162,22 @@ function App() {
 		}
 	};   
 
-	// const handleClick = (value) => {
-	// 	if (React.isValidElement(value)) {
-	// 		const operator = getIconSymbol(value);
-	// 		const lastChar = display[display.length - 1];
-	
-	// 		let newDisplay = display;
-	
-	// 		if (!display) {
-	// 			return; // Prevent starting with an operator
-	// 		}
-	
-	// 		if ("+-*/".includes(lastChar)) {
-	// 			// Replace last operator with new one
-	// 			newDisplay = display.slice(0, -1) + operator;
-	// 		} else {
-	// 			// Append the operator
-	// 			newDisplay += operator;
-	// 		}
-	
-	// 		setDisplay(newDisplay);
-	// 		liveEvaluate(newDisplay);
-	// 		setShowResultOnly(false);
-	
-	// 	} else if (value === "=") {
-	// 		try {
-	// 			const openCount = (display.match(/\(/g) || []).length;
-	// 			const closeCount = (display.match(/\)/g) || []).length;
-	// 			let balancedDisplay = display;
-	
-	// 			if (openCount > closeCount) {
-	// 				balancedDisplay += ")".repeat(openCount - closeCount);
-	// 			}
-	
-	// 			const result = evaluate(balancedDisplay);
-	// 			setResult(result.toString());
-	// 			setShowResultOnly(true);
-	// 			setDisplay(result.toString());
-	// 			setHistory((prev) => [...prev, `${balancedDisplay} = ${result}`]);
-	// 		} catch {
-	// 			setDisplay("Error");
-	// 		}
-	
-	// 	} else if (value === "()") {
-	// 		const lastChar = display[display.length - 1];
-	// 		let newDisplay = display;
-	
-	// 		if (!display || "+-*/(".includes(lastChar)) {
-	// 			newDisplay += "(";
-	// 		} else {
-	// 			const open = (display.match(/\(/g) || []).length;
-	// 			const close = (display.match(/\)/g) || []).length;
-	// 			newDisplay += open > close ? ")" : "*(";
-	// 		}
-	
-	// 		setDisplay(newDisplay);
-	// 		liveEvaluate(newDisplay);
-	// 		setShowResultOnly(false);
-	
-	// 	} else if (value === "+/-") {
-	// 		const regex = /(-?\d+(\.\d*)?)$/;
-	// 		const match = display.match(regex);
-	
-	// 		if (match) {
-	// 			const lastNumber = match[0];
-	// 			const toggled = lastNumber.startsWith("-") ? lastNumber.slice(1) : "-" + lastNumber;
-	// 			const newDisplay = display.slice(0, -lastNumber.length) + toggled;
-	
-	// 			setDisplay(newDisplay);
-	// 			liveEvaluate(newDisplay);
-	// 		}
-	// 		setShowResultOnly(false);
-	
-	// 	} else if (value === "%") {
-	// 		const lastChar = display[display.length - 1];
-	// 		let newDisplay = display + "%";
-	
-	// 		if (/\d|\)/.test(lastChar)) {
-	// 			newDisplay += "*";
-	// 		}
-	
-	// 		setDisplay(newDisplay);
-	// 		liveEvaluate(newDisplay);
-	// 		setShowResultOnly(false);
-	
-	// 	} else if (!isNaN(value) || value === ".") {
-	// 		const lastChar = display[display.length - 1];
-	// 		const parts = display.split(/[\+\-\*\/\(\)]/);
-	// 		const currentNumber = parts[parts.length - 1];
-	
-	// 		if (value === "0" && /^0+$/.test(currentNumber) && !currentNumber.includes(".")) {
-	// 			return;
-	// 		}
-	
-	// 		if (value === "." && currentNumber.includes(".")) {
-	// 			return;
-	// 		}
-	
-	// 		const newDisplay = lastChar === ")" ? display + "*" + value : display + value;
-	// 		setDisplay(newDisplay);
-	// 		liveEvaluate(newDisplay);
-	// 		setShowResultOnly(false);
-	
-	// 	} else {
-	// 		const newDisplay = display + value;
-	// 		setDisplay(newDisplay);
-	// 		liveEvaluate(newDisplay);
-	// 		setShowResultOnly(false);
-	// 	}
-	// };
-	
-	
-	
 	const liveEvaluate = (expression) => {
-  // Show preview only if the expression contains at least one number and ends with a valid operator
-  const hasOperator = /[+\-*/]/.test(expression);
-  const endsWithNumber = /\d$/.test(expression);
+    // Show preview only if the expression contains at least one number and ends with a valid operator
+		const hasOperator = /[+\-*/]/.test(expression);
+		const endsWithNumber = /\d$/.test(expression);
 
-  if (hasOperator && endsWithNumber) {
-    try {
-      const result = evaluate(expression); // Using mathjs or your eval method
-      setResult(result.toString());
-    } catch {
-      setResult(""); // If expression is invalid, hide the result
-    }
-  } else {
-    setResult(""); // Don't show preview yet
-  }
-};
+		if (hasOperator && endsWithNumber) {
+			try {
+				const result = evaluate(expression); // Using mathjs or your eval method
+				setResult(result.toString());
+			} catch {
+				setResult(""); // If expression is invalid, hide the result
+			}
+		} else {
+			setResult(""); // Don't show preview yet
+		}
+	};
 
 		
 	
@@ -291,15 +200,14 @@ function App() {
 			}
 
 			// Operators
-			if (key === "+") handleClick("+");
-			if (key === "-") handleClick("-");
-			if (key === "*") handleClick("*"); 
-			if (key === "/") handleClick("/"); 
-			if (key === "%") handleClick("%");
+			if ("+-*/%".includes(key)) {
+				handleClick(key);
+			}
 
 			// Brackets
-			if (key === "(") handleClick("(");
-			if (key === ")") handleClick(")");
+			if (key === "(" || key === ")") {
+				handleClick("()");
+			}
 
 			// Enter and equals
 			if (key === "Enter" || key === "=") handleClick("=");
