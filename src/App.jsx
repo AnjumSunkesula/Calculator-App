@@ -139,17 +139,19 @@ function App() {
 
 			const parts = newDisplay.split(/[\+\-\*\/\(\)]/); // split by operators
 			const currentNumber = parts[parts.length - 1];
-			
-			if (value === '0' && /^0+$/.test(currentNumber) && !currentNumber.includes('.')) {    // Prevent multiple leading zeroes unless followed by a decimal point
-				return; // block more than one leading zero
+
+			if( value === '.' && (currentNumber === '' || /[+\-*/(]$/.test(newDisplay))){
+				newDisplay += '0.';
+			} else {
+				if (value === '0' && /^0+$/.test(currentNumber) && !currentNumber.includes('.')) {    // Prevent multiple leading zeroes unless followed by a decimal point
+					return; // block more than one leading zero
+				}
+				if (value === '.' && currentNumber.includes('.')) {         // Prevent multiple decimals in the same number
+					return; //block multiple dots in a number
+				}
+				newDisplay += value;
 			}
 			
-			if (value === '.' && currentNumber.includes('.')) {         // Prevent multiple decimals in the same number
-				return;
-			}
-
-			newDisplay += value;
-
 			setDisplay(newDisplay);
 			liveEvaluate(newDisplay);
 			setShowResultOnly(false);
