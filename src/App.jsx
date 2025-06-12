@@ -299,6 +299,17 @@ function App() {
 		setDisplay("");
 	}
 
+	//OPERATOR HIGHLIGHT COLOR
+	const renderStyledDisplay = () => {
+		return display.split('').map((char, index) => {
+			if ("+-*/()%.".includes(char)) {
+				return <span key={index} className="operator-highlight">{char}</span>;
+			}
+			return <span key={index}>{char}</span>;
+		});
+	};
+	
+
 	return(
 		<>
 			<div className='container'>
@@ -308,7 +319,7 @@ function App() {
 							{!showResultOnly && (
 								<div className="equation">
 									<span className='display-content'>
-										{display}
+									{renderStyledDisplay()}
 									<span className="cursor"></span> {/* Cursor always shown after the display */}
 									</span>
 								</div>
