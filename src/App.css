@@ -51,6 +51,9 @@ body{
         opacity: 0;
     }
 }
+.operator-highlight {
+    color: rgb(98, 222, 98);
+}
 .equation {
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
