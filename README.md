@@ -1,6 +1,6 @@
 # Calculator with ScaleConverter
 
-A powerful and user-friendly calculator web app built with React. Includes a multi-category unit converter (ScaleConverter) and a persistent dark/light theme toggle.
+A powerful and user-friendly calculator web app built with React. Includes a multi-category unit converter (ScaleConverter) and Responsive.
 
 ## ✨ Features
 
